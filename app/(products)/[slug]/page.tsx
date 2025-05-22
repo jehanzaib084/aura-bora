@@ -1,6 +1,8 @@
 'use client';
 
 import Image from "next/image";
+import ProductDetailCarousel from "@/app/components/ProductDetailCarousel";
+import ProductsGrid from "@/app/components/ProductsGrid";
 
 export default function Home() {
     return (
@@ -35,7 +37,7 @@ export default function Home() {
                             alt="Pumpkin Spice Illustration"
                             width={1000}
                             height={600}
-                            className="object-cover"
+                            className="w-full h-full object-cover"
                             priority
                         />
                     </div>
@@ -66,7 +68,7 @@ export default function Home() {
                             </div>
                         </div>
                         {/* Bio */}
-                        <div className="flex-[0_0_30%] flex flex-col pl-3 py-1 text-xs">
+                        <div className="flex-[0_0_30%] flex flex-col justify-center pl-3 py-2 lg:py-0 text-xs">
                             <div>
                                 <span className="text-[#666666] uppercase">NAME:</span>
                                 <p className="lg:text-sm">Baddie</p>
@@ -84,18 +86,8 @@ export default function Home() {
                 </div>
 
                 {/* Column 2 */}
-                <div className="flex-1 flex w-full items-center justify-center border-b-2 py-6 lg:border-b-0 lg:border-r-2 border-black">
-                    <div className="relative flex align-center justify-center w-72 aspect-[3/4]">
-                        <Image
-                            src="/can.png"
-                            alt="Aura Bora Can"
-                            width={200}
-                            height={250}
-                            className="object-contain"
-                            sizes="(max-width: 768px) 50vw, 33vw"
-                            priority
-                        />
-                    </div>
+                <div className="flex-1 flex w-full min-h-[400px] py-4 lg:min-h-0 border-b-2 lg:border-b-0 lg:border-r-2 border-black">
+                    <ProductDetailCarousel />
                 </div>
 
                 {/* Column 3 */}
@@ -110,46 +102,7 @@ export default function Home() {
                     </div>
 
                     <div className="flex-1 overflow-y-auto border-b-2 border-black">
-                        <div className="p-2 lg:p-4">
-                            <div className="grid grid-cols-4 lg:grid-cols-3 gap-2 lg:gap-4 auto-rows-max">
-                                {[
-                                    { name: 'Pumpkin Spice', bgClass: 'bg-[#F7B7D7]', hoverClass: 'group-hover:bg-[#F7B7D7]/90' },
-                                    { name: 'Green Bean Casserole', bgClass: 'bg-[#d6ef70]', hoverClass: 'group-hover:bg-[#d6ef70]/90' },
-                                    { name: 'Lavender Melon', bgClass: 'bg-[#B8A5F8]', hoverClass: 'group-hover:bg-[#B8A5F8]/90' },
-                                    { name: 'Cactus Rose', bgClass: 'bg-[#FF9E93]', hoverClass: 'group-hover:bg-[#FF9E93]/90' },
-                                    { name: 'Basil Berry', bgClass: 'bg-[#94D675]', hoverClass: 'group-hover:bg-[#94D675]/90' },
-                                    { name: 'Chai Cranberry', bgClass: 'bg-[#FFB17A]', hoverClass: 'group-hover:bg-[#FFB17A]/90' },
-                                    { name: 'Cactus Rose', bgClass: 'bg-[#FF9E93]', hoverClass: 'group-hover:bg-[#FF9E93]/90' },
-                                    { name: 'Basil Berry', bgClass: 'bg-[#94D675]', hoverClass: 'group-hover:bg-[#94D675]/90' },
-                                    { name: 'Chai Cranberry', bgClass: 'bg-[#FFB17A]', hoverClass: 'group-hover:bg-[#FFB17A]/90' },
-                                    { name: 'Cactus Rose', bgClass: 'bg-[#FF9E93]', hoverClass: 'group-hover:bg-[#FF9E93]/90' },
-                                    { name: 'Basil Berry', bgClass: 'bg-[#94D675]', hoverClass: 'group-hover:bg-[#94D675]/90' },
-                                    { name: 'Chai Cranberry', bgClass: 'bg-[#FFB17A]', hoverClass: 'group-hover:bg-[#FFB17A]/90' }
-                                ].map((flavor, i) => (
-                                    <button
-                                        key={i}
-                                        className="relative w-full aspect-square rounded-2xl border-2 border-black overflow-hidden group transition-colors duration-300 cursor-pointer"
-                                        aria-label={`Select ${flavor.name} flavor`}
-                                    >
-                                        <div className={`absolute inset-0 transition-colors duration-300 ${flavor.bgClass} ${flavor.hoverClass}`} />
-                                        <div className="absolute top-4 left-1/2 -translate-x-1/2 w-4/5 h-[120%]">
-                                            <Image
-                                                src="/can.png"
-                                                alt={flavor.name}
-                                                width={120}
-                                                height={180}
-                                                className="object-contain w-full h-full"
-                                            />
-                                        </div>
-                                        <div className="absolute bottom-0 left-0 right-0 min-h-[2.35em] flex items-center justify-center bg-white border-t-2 border-black">
-                                            <span className="text-center text-[0.7rem] lg:text-xs font-mono font-light leading-tight line-clamp-2 px-2">
-                                                {flavor.name}
-                                            </span>
-                                        </div>
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
+                        <ProductsGrid />
                     </div>
 
                     <div className="flex-[0_0_10%] flex items-center justify-between px-4 py-2 text-lg border-b-2 border-black whitespace-nowrap">
