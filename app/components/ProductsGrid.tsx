@@ -30,7 +30,7 @@ export default function ProductsGrid() {
     return (
         <div className="flex flex-col h-full">
             {/* Toggle Buttons */}
-            <div className="flex gap-2 items-center p-2 whitespace-nowrap">
+            <div className="flex gap-2 items-center text-sm lg:text-md p-2 whitespace-nowrap">
                 <button 
                     className={`flex-1 py-2 rounded-full border-2 border-black font-mono cursor-pointer transition-colors duration-200
                         ${!showVarietyPacks ? 'bg-[#FFE6A7]' : 'bg-white'}`}
