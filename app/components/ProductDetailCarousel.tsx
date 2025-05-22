@@ -11,7 +11,7 @@ export default function ProductDetailCarousel() {
     return (
         <div className="relative w-full h-full min-h-[400px] lg:min-h-full">
             {/* Fixed container for images */}
-            <div className="absolute inset-0 flex items-center justify-center px-2">
+            <div className="absolute inset-0 flex items-center justify-center px-2 py-16">
                 <div className="relative w-full h-full">
                     {images.map((src, index) => (
                         <div
@@ -24,7 +24,7 @@ export default function ProductDetailCarousel() {
                                 alt={`Aura Bora Product View ${index + 1}`}
                                 fill
                                 className="object-contain"
-                                sizes="(max-width: 768px) 100vw, 33vw"
+                                sizes="(max-height: 768px) 60vh, 33vh"
                                 priority={index === 0}
                             />
                         </div>
