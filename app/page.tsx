@@ -1,11 +1,13 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function Home() {
   const products = [
     {
       name: 'APPLE CINNAMON',
+      slug: 'apple-cinnamon',
       description: 'spiced, crisp, juicy',
       img: '/can.png',
       bgHeader: 'bg-green-700',
@@ -14,6 +16,7 @@ export default function Home() {
     },
     {
       name: 'PUMPKIN SPICE',
+      slug: 'pumpkin-spice',
       description: 'nutty, sweet, creamy',
       img: '/can.png',
       bgHeader: 'bg-[#992c4a]',
@@ -22,6 +25,7 @@ export default function Home() {
     },
     {
       name: 'GREEN BEAN CASSEROLE',
+      slug: 'green-bean-casserole',
       description: 'crunchy, succulent, fresh',
       img: '/can.png',
       bgHeader: 'bg-green-700',
@@ -30,6 +34,7 @@ export default function Home() {
     },
     {
       name: 'HIBISCUS PASSIONFRUIT',
+      slug: 'hibiscus-passionfruit',
       description: 'floral, sweet, tart',
       img: '/can.png',
       bgHeader: 'bg-[#aaf0d1]',
@@ -53,42 +58,47 @@ export default function Home() {
         {products.map((product, index) => (
           <div
             key={index}
-            className="border border-black rounded-lg overflow-hidden flex flex-col min-w-[320px] max-w-[400px] font-mono"
+            className="border border-black rounded-lg overflow-hidden flex flex-col min-w-[320px] max-w-[400px] font-mono bg-[#FFF9ED]"
           >
-            {/* Header */}
-            <div className={`${product.bgHeader} text-center py-2 border-b`}>
-              <h3 className="text-md">{product.name}</h3>
-            </div>
-            {/* Description */}
-            <div className={`${product.bgDesc} text-center py-2 rounded-b border-b`}>
-              <p className="text-sm">{product.description}</p>
-            </div>
-            {/* Image */}
-            <div className="relative w-full h-100 bg-white">
-              <Image
-                src={product.img}
-                alt={product.name}
-                layout="fill"
-                objectFit="contain"
-                className="p-3 bg-[#FFF9ED]"
-              />
-            </div>
-
+            <Link href={`/${product.slug}`} className="flex flex-col flex-grow">
+              {/* Header */}
+              <div className={`${product.bgHeader} text-center py-2 border-b`}>
+                <h3 className="text-md">{product.name}</h3>
+              </div>
+              {/* Description */}
+              <div className={`${product.bgDesc} text-center py-2 border-b`}>
+                <p className="text-sm">{product.description}</p>
+              </div>
+              {/* Image */}
+              <div className="flex items-center justify-center w-full bg-[#FFF9ED] min-h-[180px]">
+                <Image
+                  src={product.img}
+                  alt={product.name}
+                  width={180}
+                  height={180}
+                  className="object-contain p-3"
+                  placeholder="blur"
+                  blurDataURL="/can-blur.png"
+                  priority={index === 0}
+                />
+              </div>
+            </Link>
+            {/* Cart Button */}
             <div className="flex flex-col flex-grow">
-                <button
-                  className={`${product.bgFooter} text-center border-t text-xs uppercase tracking-wide flex flex-row justify-between w-full py-2 px-3 cursor-pointer hover:bg-[#FFF9ED]`}
-                  aria-label={`Add ${product.name} to your cart`}
-                >
-                  <span className="flex flex-col">
-                    <span>Add to Cart</span>
-                    <span className="flex gap-1">
-                      <span className="text-xs font-semibold" data-package-size="12">12 cans</span>
-                    </span>
+              <button
+                className={`${product.bgFooter} text-center border-t text-xs uppercase tracking-wide flex flex-row justify-between w-full py-2 px-3 cursor-pointer hover:bg-[#FFF9ED]`}
+                aria-label={`Add ${product.name} to your cart`}
+              >
+                <span className="flex flex-col">
+                  <span>Add to Cart</span>
+                  <span className="flex gap-1">
+                    <span className="text-xs font-semibold" data-package-size="12">12 cans</span>
                   </span>
-                  <span className="flex items-center">
-                    <span className="font-bold">$33</span>
-                  </span>
-                </button>
+                </span>
+                <span className="flex items-center">
+                  <span className="font-bold">$33</span>
+                </span>
+              </button>
             </div>
           </div>
         ))}
