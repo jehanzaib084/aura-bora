@@ -44,10 +44,10 @@ export default function Home() {
   ];
 
   return (
-    <div className="container mx-auto px-4 py-12">
+    <div className="container mx-auto px-4 py-12 bg-[#FFFEF6]">
       {/* Header */}
       <div className="flex mb-4">
-        <h1 className="text-[5rem] leading-none text-[#F5B54A] font-gliker text-stroke drop-shadow-stroke break-words">
+        <h1 className="text-[3rem] lg:text-[5rem] leading-none text-[#F5B54A] font-gliker text-stroke drop-shadow-stroke break-words">
           SHOP ALL
         </h1>
         <sup className="mt-4 font-mono text-md">(23)</sup>
