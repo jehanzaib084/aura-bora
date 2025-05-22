@@ -26,7 +26,7 @@ export default function ProductsGrid() {
                         aria-label={`Select ${flavor.name} flavor`}
                     >
                         <div className={`absolute inset-0 transition-colors duration-300 bg-[#FFFEF6] opacity-70 ${flavor.hoverClass}`} />
-                        <div className="absolute top-4 left-1/2 -translate-x-1/2 w-4/5 h-[120%]">
+                        <div className="absolute top-2 lg:top-4 left-1/2 -translate-x-1/2 w-4/5 h-[140%] lg:h-[120%]">
                             <Image
                                 src="/can.png"
                                 alt={flavor.name}
