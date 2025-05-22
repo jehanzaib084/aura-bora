@@ -19,12 +19,12 @@ const barlow = Barlow({
 const gliker = localFont({
   src: [
     {
-      path: "../gliker/Gliker-Regular.woff2", // Adjust the path and filename as needed
+      path: "../gliker/Gliker-Regular.woff2",
       weight: "400",
       style: "normal",
     },
     {
-      path: "../gliker/Gliker-Bold.woff2", // Adjust the path and filename as needed
+      path: "../gliker/Gliker-Bold.woff2",
       weight: "700",
       style: "normal",
     },

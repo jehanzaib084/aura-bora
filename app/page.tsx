@@ -44,7 +44,8 @@ export default function Home() {
   ];
 
   return (
-    <div className="container mx-auto px-4 py-12 bg-[#FFFEF6]">
+    <div className="min-h-screen w-full flex items-center justify-center font-mono bg-[#FFFEF6]">
+      <div className="container mx-auto px-4 py-12">
       {/* Header */}
       <div className="flex mb-4">
         <h1 className="text-[3rem] lg:text-[5rem] leading-none text-[#F5B54A] font-gliker text-stroke drop-shadow-stroke break-words">
@@ -62,7 +63,7 @@ export default function Home() {
           >
             <Link href={`/${product.slug}`} className="flex flex-col flex-grow">
               {/* Header */}
-              <div className={`${product.bgHeader} text-center py-2 border-b`}>
+              <div className={`${product.bgHeader} text-center py-4 border-b`}>
                 <h3 className="text-md">{product.name}</h3>
               </div>
               {/* Description */}
@@ -70,12 +71,12 @@ export default function Home() {
                 <p className="text-sm">{product.description}</p>
               </div>
               {/* Image */}
-              <div className="flex items-center justify-center w-full bg-[#FFF9ED] min-h-[180px]">
+              <div className="flex items-center justify-center w-full bg-[#FFF9ED]">
                 <Image
                   src={product.img}
                   alt={product.name}
-                  width={180}
-                  height={180}
+                  width={140}
+                  height={140}
                   className="object-contain p-3"
                   placeholder="blur"
                   blurDataURL="/can-blur.png"
@@ -86,17 +87,17 @@ export default function Home() {
             {/* Cart Button */}
             <div className="flex flex-col flex-grow">
               <button
-                className={`${product.bgFooter} text-center border-t text-xs uppercase tracking-wide flex flex-row justify-between w-full py-2 px-3 cursor-pointer hover:bg-[#FFF9ED]`}
+                className={`${product.bgFooter} text-center border-t uppercase tracking-wide flex flex-row justify-between w-full py-2 px-3 cursor-pointer hover:bg-[#FFF9ED]`}
                 aria-label={`Add ${product.name} to your cart`}
               >
                 <span className="flex flex-col">
-                  <span>Add to Cart</span>
+                  <span className="text-sm lg:text-md">Add to Cart</span>
                   <span className="flex gap-1">
-                    <span className="text-xs font-semibold" data-package-size="12">12 cans</span>
+                    <span className="text-xs lg:text-sm font-semibold" data-package-size="12">12 cans</span>
                   </span>
                 </span>
                 <span className="flex items-center">
-                  <span className="font-bold">$33</span>
+                  <span className="text-sm lg:text-md font-bold">$33</span>
                 </span>
               </button>
             </div>
@@ -104,5 +105,7 @@ export default function Home() {
         ))}
       </div>
     </div>
+    </div>
+    
   );
 }

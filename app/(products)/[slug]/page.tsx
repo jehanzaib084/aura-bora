@@ -17,7 +17,7 @@ export default function Home() {
                         <h1 className="text-3xl lg:text-4xl xl:text-6xl font-bold tracking-wider font-gliker text-[#F99F1C] text-stroke leading-tight max-w-[12ch] md:max-w-none">
                             PUMPKIN SPICE
                         </h1>
-                        <div className="flex items-center justify-center gap-2 text-xs ">
+                        <div className="flex items-center justify-center gap-2 text-xs lg:text-lg ">
                             <span aria-label="4 out of 5 stars">★ ★ ★ ★ ☆</span>
                             <a href="#" className="underline cursor-pointer" aria-label="Read 37 reviews">37 Reviews</a>
                         </div>
@@ -155,7 +155,10 @@ export default function Home() {
                     {/* Cart Button - Hidden on mobile */}
                     <div className="flex-shrink-0 hidden lg:block">
                         <button className="flex-[0_0_10%] whitespace-nowrap bg-[#D48FCB] text-black font-bold text-lg lg:text-xl flex justify-between items-center px-4 lg:px-6 py-4 lg:py-6 w-full cursor-pointer" aria-label="Add to cart">
-                            <span>ADD TO CART</span>
+                            <div className="flex flex-col align-start">
+                                <span className="text-sm">ADD TO CART</span>
+                                <span className="text-xs font-normal -mt-0.5">12 CANS</span>
+                            </div>
                             <span className="font-bold">$33</span>
                         </button>
                     </div>
