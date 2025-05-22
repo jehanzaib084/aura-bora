@@ -1,15 +1,36 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Space_Mono, Barlow } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const spaceMono = Space_Mono({
+  variable: "--font-space-mono",
   subsets: ["latin"],
+  weight: ["400", "700"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const barlow = Barlow({
+  variable: "--font-barlow",
   subsets: ["latin"],
+  weight: ["400", "700"],
+});
+
+// Load the Gliker font from the local 'gliker' folder
+const gliker = localFont({
+  src: [
+    {
+      path: "../gliker/Gliker-Regular.woff2", // Adjust the path and filename as needed
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../gliker/Gliker-Bold.woff2", // Adjust the path and filename as needed
+      weight: "700",
+      style: "normal",
+    },
+    // Add more weights/styles if you have them
+  ],
+  variable: "--font-gliker",
 });
 
 export const metadata: Metadata = {
@@ -25,7 +46,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        suppressHydrationWarning
+        className={`${spaceMono.variable} ${barlow.variable} ${gliker.variable} antialiased`}
       >
         {children}
       </body>

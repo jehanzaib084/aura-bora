@@ -8,14 +8,25 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-geist-sans); 
 }
+
+@layer utilities {
+  .text-stroke {
+    -webkit-text-stroke: 1.5px black;
+    paint-order: stroke;
+  }
+
+  .drop-shadow-stroke {
+    filter: drop-shadow(0.15rem 0.15rem 0 black);
+  }
+}
+
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #ededed;
+    --foreground: #0a0a0a ;
   }
 }
 
@@ -24,3 +35,17 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Font family utility classes */
+.font-mono {
+  font-family: var(--font-space-mono);
+}
+
+.font-barlow {
+  font-family: var(--font-barlow);
+}
+
+.font-gliker {
+  font-family: var(--font-gliker);
+}
+

@@ -1,103 +1,98 @@
-import Image from "next/image";
+'use client';
+
+import Image from 'next/image';
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const products = [
+    {
+      name: 'APPLE CINNAMON',
+      description: 'spiced, crisp, juicy',
+      img: '/can.png',
+      bgHeader: 'bg-green-700',
+      bgDesc: 'bg-white',
+      bgFooter: 'bg-red-600',
+    },
+    {
+      name: 'PUMPKIN SPICE',
+      description: 'nutty, sweet, creamy',
+      img: '/can.png',
+      bgHeader: 'bg-[#992c4a]',
+      bgDesc: 'bg-[#fdbb3f]',
+      bgFooter: 'bg-[#cb77a3]',
+    },
+    {
+      name: 'GREEN BEAN CASSEROLE',
+      description: 'crunchy, succulent, fresh',
+      img: '/can.png',
+      bgHeader: 'bg-green-700',
+      bgDesc: 'bg-green-100',
+      bgFooter: 'bg-lime-300',
+    },
+    {
+      name: 'HIBISCUS PASSIONFRUIT',
+      description: 'floral, sweet, tart',
+      img: '/can.png',
+      bgHeader: 'bg-[#aaf0d1]',
+      bgDesc: 'bg-white',
+      bgFooter: 'bg-[#b2f5ea]',
+    },
+  ];
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+  return (
+    <div className="container mx-auto px-4 py-12">
+      {/* Header */}
+      <div className="flex mb-4">
+        <h1 className="text-[5rem] leading-none text-[#F5B54A] font-gliker text-stroke drop-shadow-stroke break-words">
+          SHOP ALL
+        </h1>
+        <sup className="mt-4 font-mono text-md">(23)</sup>
+      </div>
+
+      {/* Grid */}
+      <div className="grid gap-4 [grid-template-columns:repeat(auto-fill,minmax(320px,1fr))]">
+        {products.map((product, index) => (
+          <div
+            key={index}
+            className="border border-black rounded-lg overflow-hidden flex flex-col min-w-[320px] max-w-[400px] font-mono"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+            {/* Header */}
+            <div className={`${product.bgHeader} text-center py-2 border-b`}>
+              <h3 className="text-md">{product.name}</h3>
+            </div>
+            {/* Description */}
+            <div className={`${product.bgDesc} text-center py-2 rounded-b border-b`}>
+              <p className="text-sm">{product.description}</p>
+            </div>
+            {/* Image */}
+            <div className="relative w-full h-100 bg-white">
+              <Image
+                src={product.img}
+                alt={product.name}
+                layout="fill"
+                objectFit="contain"
+                className="p-3 bg-[#FFF9ED]"
+              />
+            </div>
+
+            <div className="flex flex-col flex-grow">
+                <button
+                  className={`${product.bgFooter} text-center border-t text-xs uppercase tracking-wide flex flex-row justify-between w-full py-2 px-3 cursor-pointer hover:bg-[#FFF9ED]`}
+                  aria-label={`Add ${product.name} to your cart`}
+                >
+                  <span className="flex flex-col">
+                    <span>Add to Cart</span>
+                    <span className="flex gap-1">
+                      <span className="text-xs font-semibold" data-package-size="12">12 cans</span>
+                    </span>
+                  </span>
+                  <span className="flex items-center">
+                    <span className="font-bold">$33</span>
+                  </span>
+                </button>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
