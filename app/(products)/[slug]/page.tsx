@@ -3,11 +3,13 @@
 import Image from "next/image";
 import ProductDetailCarousel from "@/app/components/ProductDetailCarousel";
 import ProductsGrid from "@/app/components/ProductsGrid";
+import KnowYourCans from "@/app/components/KnowYourCan";
 
 export default function Home() {
     return (
-        <div className="min-h-screen w-full flex items-center justify-center px-2 lg:px-16 py-2 lg:py-4 font-mono bg-[#FDC161]">
-            <div className="h-auto lg:h-[95dvh] w-full flex flex-col lg:flex-row rounded-2xl border-2 border-black overflow-hidden">
+        <>
+        <div className="min-h-screen w-full flex items-center justify-center px-2 lg:px-16 py-[40px] lg:py-[80px] font-mono bg-[#FDC161]">
+            <div className="h-auto lg:h-[90dvh] w-full flex flex-col lg:flex-row rounded-2xl border-2 border-black overflow-hidden">
 
                 {/* MOBILE HEADER */}
                 <div className="lg:hidden flex-[0_0_auto] flex flex-col items-center justify-center gap-2 p-2 border-b-2 border-black text-center bg-[#FDC161] z-10">
@@ -139,5 +141,11 @@ export default function Home() {
                 </button>
             </div>
         </div>
+
+        {/* Know Your Can Section */}
+        <div className="border-t-2">
+            <KnowYourCans />
+        </div>
+        </>
     );
 }
