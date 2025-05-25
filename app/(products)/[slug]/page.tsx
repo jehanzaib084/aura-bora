@@ -36,7 +36,7 @@ export default function Home() {
                         </div>
 
                         {/* DESCRIPTION - now fills available space */}
-                        <div className="flex-1 flex items-center justify-center lg:border-b-2 border-black px-8 py-6 lg:py-0 text-center text-sm md:text-md lg:text-md">
+                        <div className="flex-1 flex items-center justify-center lg:border-b-2 border-black px-8 py-6 lg:py-0 text-center text-sm md:text-md lg:text-md xl:text-lg">
                             <p>
                                 Pumpkin Spice is soul-warming and robust with notes of cinnamon and clove: the quintessential autumnal introduction!
                             </p>
