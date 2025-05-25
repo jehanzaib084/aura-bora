@@ -43,7 +43,7 @@ export default function KnowYourCans() {
                 </div>
 
                 {/* Details */}
-                <div className="w-full flex flex-col gap-2 font-mono text-base text-left text-black px-4 py-4">
+                <div className="w-full flex flex-col gap-2 font-mono text-base text-left text-black p-4">
                     <div className="flex w-full">
                         <span className="font-bold w-[50%] lg:w-[30%] lg:text-lg">
                             Ingredients:
@@ -74,7 +74,7 @@ export default function KnowYourCans() {
                 </div>
 
                 {/* Icons Row */}
-                <div className="flex flex-wrap justify-center gap-4 mt-8 mb-12">
+                <div className="flex flex-wrap justify-center gap-4 p-4 mb-12">
                     {icons.map((icon) => (
                         <div key={icon.label} className="flex flex-col items-center">
                             <span className="w-16 h-16 rounded-full bg-transparent flex items-center justify-center mb-2 border border-black">
