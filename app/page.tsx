@@ -1,7 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
 
 import Image from 'next/image';
 import Link from 'next/link';
+
+
+import StoryCard from '@/app/components/StoryCard';
 
 export default function Home() {
   const products = [
@@ -44,66 +48,36 @@ export default function Home() {
   ];
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center font-mono bg-[#FFFEF6]">
-      <div className="container mx-auto px-4 py-12">
-        {/* Header */}
-        <div className="flex mb-4">
-          <h1 className="text-[3rem] lg:text-[5rem] leading-none text-[#F5B54A] font-gliker text-stroke drop-shadow-stroke break-words">
-            SHOP ALL
-          </h1>
-          <sup className="mt-4 font-mono text-md">(23)</sup>
-        </div>
+    <div className="min-h-screen w-full flex items-center justify-center font-mono bg-[#FFF9ED]">
+      {/* Centered outer container with vertical padding */}
+      <div className="w-full max-w-3xl px-8 py-16 flex flex-col items-center">
 
-        {/* Grid */}
-        <div className="grid gap-4 [grid-template-columns:repeat(auto-fill,minmax(320px,1fr))]">
-          {products.map((product, index) => (
-            <div
-              key={index}
-              className="border border-black rounded-lg overflow-hidden flex flex-col min-w-[320px] max-w-[400px] font-mono bg-[#FFF9ED]"
-            >
-              <Link href={`/${product.slug}`} className="flex flex-col flex-grow">
-                {/* Header */}
-                <div className={`${product.bgHeader} text-center py-4 border-b`}>
-                  <h3 className="text-md">{product.name}</h3>
-                </div>
-                {/* Description */}
-                <div className={`${product.bgDesc} text-center py-2 border-b`}>
-                  <p className="text-sm">{product.description}</p>
-                </div>
-                {/* Image */}
-                <div className="w-full min-h-[160px] flex items-center justify-center p-3 bg-[#FFF9ED]">
-                  <Image
-                    src={product.img}
-                    alt={product.name}
-                    width={200}
-                    height={300}
-                    className="object-contain max-w-[200px] max-h-[300px]"
-                    priority={index === 0}
-                  />
-                </div>
-              </Link>
-              {/* Cart Button */}
-              <div className="flex flex-col flex-grow">
-                <button
-                  className={`${product.bgFooter} text-center border-t uppercase tracking-wide flex flex-row justify-between w-full py-2 px-3 cursor-pointer hover:bg-[#FFF9ED]`}
-                  aria-label={`Add ${product.name} to your cart`}
-                >
-                  <span className="flex flex-col">
-                    <span className="text-sm lg:text-md">Add to Cart</span>
-                    <span className="flex gap-1">
-                      <span className="text-xs lg:text-sm font-semibold" data-package-size="12">12 cans</span>
-                    </span>
-                  </span>
-                  <span className="flex items-center">
-                    <span className="text-sm lg:text-md font-bold">$33</span>
-                  </span>
-                </button>
-              </div>
-            </div>
-          ))}
+        {/* Content wrapper with consistent spacing */}
+        <div className="w-full flex flex-col">
+
+          {/* Intro text */}
+          <p className="text-xl">
+            Aura Bora is a
+          </p>
+
+          {/* SVG / Story Illustration */}
+          <div className="w-full">
+            <StoryCard />
+          </div>
+
+          {/* Description text */}
+          <div className="w-full max-w-xl">
+            <p className="text-lg">
+              No added sugar, sweeteners, citric acid,
+            </p>
+            <p className="text-lg">
+              or artificial ingredients.
+            </p>
+          </div>
         </div>
       </div>
     </div>
-
   );
+
+
 } 
