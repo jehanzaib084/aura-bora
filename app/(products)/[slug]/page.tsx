@@ -13,7 +13,7 @@ export default function Home() {
 
                     {/* MOBILE HEADER */}
                     <div className="lg:hidden flex-[0_0_auto] flex flex-col items-center justify-center gap-2 p-2 border-b-2 border-black text-center bg-[#FDC161] z-10">
-                        <h1 className="text-3xl font-bold tracking-wider font-gliker text-[#F99F1C] text-stroke leading-tight max-w-[12ch]">
+                        <h1 className="text-3xl font-bold tracking-wider font-gliker text-[#F99F1C] text-stroke drop-shadow-stroke-2 leading-tight max-w-[12ch]">
                             PUMPKIN SPICE
                         </h1>
                         <div className="flex items-center justify-center gap-2 text-xs">
@@ -26,7 +26,7 @@ export default function Home() {
                     <div className="order-3 lg:order-1 flex flex-col h-full lg:border-r-2 border-black w-full lg:w-[32%] min-w-0 bg-[#FDC161]">
                         {/* DESKTOP HEADER */}
                         <div className="hidden lg:flex flex-none flex-col items-center justify-center gap-2 p-4 border-b-2 border-black text-center">
-                            <h1 className="text-3xl lg:text-4xl xl:text-6xl font-bold tracking-wider font-gliker text-[#F99F1C] text-stroke leading-tight max-w-[12ch] md:max-w-none">
+                            <h1 className="text-3xl lg:text-4xl xl:text-6xl font-bold tracking-wider text-stroke drop-shadow-stroke-2 font-gliker text-[#F99F1C] leading-tight max-w-[12ch] md:max-w-none">
                                 PUMPKIN SPICE
                             </h1>
                             <div className="flex items-center justify-center gap-2 text-xs lg:text-md">
@@ -58,18 +58,18 @@ export default function Home() {
                         <div className="flex-none flex flex-row border-t-2 lg:border-t-0 bg-[#FDC161]">
                             <div className="flex-[0_0_70%] flex items-center justify-center gap-8 border-r-2 border-black py-2">
                                 <div className="flex flex-col items-center">
-                                    <Image src="/pumpkin.avif" alt="Pumpkin" width={60} height={60} className="aspect-square" />
+                                    <Image src="/pumpkin.avif" alt="Pumpkin" width={60} height={60}/>
                                     <span className="text-xs lg:text-sm uppercase tracking-wider">PUMPKIN</span>
                                 </div>
                                 <div className="flex flex-col items-center">
-                                    <Image src="/spice.avif" alt="Spice" width={60} height={60} className="aspect-square" />
+                                    <Image src="/spice.avif" alt="Spice" width={60} height={60}/>
                                     <span className="text-xs lg:text-sm uppercase tracking-wider">SPICE</span>
                                 </div>
                             </div>
                             <div className="flex-[0_0_30%] flex flex-col justify-center pl-3 py-2 lg:py-0 text-xs">
-                                <div><span className="text-[#666666] uppercase">NAME:</span><p>Baddie</p></div>
-                                <div><span className="text-[#666666] uppercase">SPECIES:</span><p>Fruit Bat</p></div>
-                                <div><span className="text-[#666666] uppercase">HOBBIES:</span><p>Hanging out</p></div>
+                                <div><span className="uppercase">NAME:</span><p>Baddie</p></div>
+                                <div><span className="uppercase">SPECIES:</span><p>Fruit Bat</p></div>
+                                <div><span className="uppercase">HOBBIES:</span><p>Hanging out</p></div>
                             </div>
                         </div>
                     </div>
