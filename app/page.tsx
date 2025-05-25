@@ -12,6 +12,7 @@ import useEmblaCarousel from 'embla-carousel-react';
 import ProductCard, { Product } from '@/app/components/ProductCard';
 import ZeroSection from '@/app/components/ZeroSection';
 import SocialLinks from '@/app/components/SocialLinks';
+import CustomTestimonialGrid from './components/TestimonialGrid';
 
 export default function Home() {
   const products = [
@@ -192,9 +193,9 @@ export default function Home() {
           <h2 className="text-[2rem] lg:text-[5rem] text-center lg:text-left font-gliker text-white text-stroke drop-shadow-stroke-2">
             OUR FLAVORS
           </h2>
-          <div className="w-full lg:w-auto bg-[#F5B54A] text-center uppercase px-6 py-1 lg:py-3 rounded-full border">
+          <Link href={`/shop-all`} className="w-full lg:w-auto bg-[#F5B54A] text-center uppercase px-6 py-1 lg:py-3 rounded-full border">
             DRINKS
-          </div>
+          </Link>
         </div>
         <div className="relative">
           {/* Left Arrow Button */}
@@ -251,9 +252,13 @@ export default function Home() {
       {/* Zero Section */}
       <ZeroSection />
 
+      <CustomTestimonialGrid />
+
       <SocialLinks />
+
       
-      <br /><br /><br /><br />
+      
+      <br />
     </div>
   );
 } 

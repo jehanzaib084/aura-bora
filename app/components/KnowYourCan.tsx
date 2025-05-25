@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 const nutrition = [
     { label: "Calories", value: "0" },
@@ -10,14 +11,14 @@ const nutrition = [
 ];
 
 const icons = [
-    { label: "SUGAR FREE", svg: <svg width="32" height="32">{/* ... */}</svg> },
-    { label: "CALORIE FREE", svg: <svg width="32" height="32">{/* ... */}</svg> },
-    { label: "NON-GMO", svg: <svg width="32" height="32">{/* ... */}</svg> },
-    { label: "VEGAN", svg: <svg width="32" height="32">{/* ... */}</svg> },
-    { label: "GLUTEN FREE", svg: <svg width="32" height="32">{/* ... */}</svg> },
-    { label: "KOSHER", svg: <svg width="32" height="32">{/* ... */}</svg> },
-    { label: "WHOLE30 APPROVED", svg: <svg width="32" height="32">{/* ... */}</svg> },
-    { label: "FOR THE PLANET", svg: <svg width="32" height="32">{/* ... */}</svg> },
+    { label: "SUGAR FREE", image: "/png-sugar-free_150x.avif" },
+    { label: "CALORIE FREE", image: "/png-carlorie-free_150x.avif" },
+    { label: "NON-GMO", image: "/png-gmo-free_150x.avif" },
+    { label: "VEGAN", image: "/png-vegan_150x.avif" },
+    { label: "GLUTEN FREE", image: "/png-gluten-free_150x.avif" },
+    { label: "KOSHER", image: "/png-kosher_150x.avif" },
+    { label: "WHOLE30 APPROVED", image: "/png-whole-30-approved_150x.avif" },
+    { label: "FOR THE PLANET", image: "/png-one-percent-for-the-planet_150x.avif" },
 ];
 
 export default function KnowYourCans() {
@@ -77,9 +78,13 @@ export default function KnowYourCans() {
                 <div className="flex flex-wrap justify-center gap-4 p-4 mb-12">
                     {icons.map((icon) => (
                         <div key={icon.label} className="flex flex-col items-center">
-                            <span className="w-16 h-16 rounded-full bg-transparent flex items-center justify-center mb-2 border border-black">
-                                {icon.svg}
-                            </span>
+                            <Image
+                                src={icon.image}
+                                alt={icon.label}
+                                width={64}
+                                height={64}
+                                className="mb-2"
+                            />
                             <span className="text-xs text-black font-mono text-center uppercase tracking-wide leading-tight">
                                 {icon.label.split(" ").map((word, i) => (
                                     <span key={i} className="block">{word}</span>
