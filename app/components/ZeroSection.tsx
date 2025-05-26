@@ -90,7 +90,7 @@ export default function ZeroSection() {
                 ? "opacity-100 translate-y-0"
                 : "opacity-0 translate-y-8 pointer-events-none"
               }
-              line-clamp-3 overflow-hidden leading-snug
+              overflow-hidden leading-snug
             `}
           >
             {item.description}
