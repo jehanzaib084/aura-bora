@@ -26,7 +26,7 @@ export default function Home() {
                     <div className="order-3 lg:order-1 flex flex-col h-full lg:border-r-2 border-black w-full lg:w-[32%] min-w-0 bg-[#FDC161]">
                         {/* DESKTOP HEADER */}
                         <div className="hidden lg:flex flex-none flex-col items-center justify-center gap-2 p-4 border-b-2 border-black text-center">
-                            <h1 className="text-3xl lg:text-4xl xl:text-6xl font-bold tracking-wider text-stroke drop-shadow-stroke-2 font-gliker text-[#F99F1C] leading-tight max-w-[12ch] md:max-w-none">
+                            <h1 className="text-3xl lg:text-4xl xl:text-5xl font-bold tracking-wider text-stroke drop-shadow-stroke-2 font-gliker text-[#F99F1C] leading-tight max-w-[12ch] md:max-w-none">
                                 PUMPKIN SPICE
                             </h1>
                             <div className="flex items-center justify-center gap-2 text-xs lg:text-md">
@@ -36,7 +36,7 @@ export default function Home() {
                         </div>
 
                         {/* DESCRIPTION - now fills available space */}
-                        <div className="flex-1 flex items-center justify-center lg:border-b-2 border-black px-8 py-6 lg:py-0 text-center text-sm md:text-md lg:text-md xl:text-lg">
+                        <div className="flex-1 flex items-center justify-center lg:border-b-2 border-black px-8 py-6 lg:py-0 text-center text-sm xl:text-md">
                             <p>
                                 Pumpkin Spice is soul-warming and robust with notes of cinnamon and clove: the quintessential autumnal introduction!
                             </p>
@@ -48,7 +48,7 @@ export default function Home() {
                                 src="/illustration.webp"
                                 alt="Pumpkin Spice Illustration"
                                 width={1000}
-                                height={600}
+                                height={560}
                                 className="w-full h-full object-cover"
                                 priority
                             />

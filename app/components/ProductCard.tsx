@@ -38,7 +38,7 @@ export default function ProductCard({ product, index }: { product: Product; inde
 
   return (
     <div className="border border-black rounded-lg overflow-hidden flex flex-col min-w-[220px] max-w-[280px] font-mono bg-[#FFF9ED]">
-      <Link href={`/${product.slug}?id=${product.documentId}`} className="flex flex-col flex-grow">
+      <Link href={`/${product.slug}`} className="flex flex-col flex-grow">
         {/* Header */}
         <div className="text-center py-3 border-b" style={{ backgroundColor: product.bgHeader }}>
           <h3 className="text-xs">{product.name}</h3>
