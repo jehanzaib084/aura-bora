@@ -7,7 +7,7 @@ export default function PageLoader() {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#FFF9ED]">
             <div className="flex flex-col items-center gap-8">
                 {/* Logo Animation */}
-                <div className="relative w-32 h-32 animate-bounce">
+                <div className="relative w-32 h-32">
                     <Image
                         src="/logo.svg"
                         alt="Aura Bora Logo"

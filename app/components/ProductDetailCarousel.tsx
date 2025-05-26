@@ -72,13 +72,13 @@ export default function ProductDetailCarousel() {
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 16 16"
-                className="w-6 h-6 fill-white"
+                className="w-6 h-6 fill-black"
                 aria-hidden="true"
               >
                 <path d="M8 2C4 2 0.7 6 0 8c0.7 2 4 6 8 6s7.3-4 8-6c-0.7-2-4-6-8-6zm0 10a4 4 0 1 1 0-8 4 4 0 0 1 0 8z" />
               </svg>
             ) : (
-              <div className="w-4 h-4 rounded-full bg-white" aria-hidden="true"></div>
+              <div className="w-4 h-4 rounded-full bg-black" aria-hidden="true"></div>
             )}
           </button>
         ))}

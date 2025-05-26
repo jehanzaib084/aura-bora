@@ -4,17 +4,103 @@ import Image from "next/image";
 import ProductDetailCarousel from "@/app/components/ProductDetailCarousel";
 import ProductsGrid from "@/app/components/ProductsGrid";
 import KnowYourCans from "@/app/components/KnowYourCan";
+import { useState, useEffect } from 'react';
+import { useParams } from 'next/navigation';
+import PageLoader from "@/app/components/PageLoader";
+import Link from "next/link";
+
+interface Product {
+  name: string;
+  slug: string;
+  price: number;
+  shortDescription: string;
+  longDescription: string;
+  characterName: string;
+  characterSpecies: string;
+  characterHobbies: string;
+  headerBgColor: string;
+  titleBgColor: string;
+  subtitleBgColor: string;
+  detailPageBgColor: string;
+  mainImage: {
+    url: string;
+  };
+  illustrationImage: {
+    url: string;
+  };
+  additionalImages: {
+    url: string;
+  }
+}
+
+// shimmer loader utilities
+const shimmer = (w: number, h: number) => `
+<svg width="${w}" height="${h}" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <linearGradient id="g">
+      <stop stop-color="#f3f4f6" offset="20%" />
+      <stop stop-color="#e5e7eb" offset="50%" />
+      <stop stop-color="#f3f4f6" offset="70%" />
+    </linearGradient>
+  </defs>
+  <rect width="${w}" height="${h}" fill="#f3f4f6" />
+  <rect id="r" width="${w}" height="${h}" fill="url(#g)" />
+  <animate xlink:href="#r" attributeName="x" from="-${w}" to="${w}" dur="1s" repeatCount="indefinite"  />
+</svg>`;
+
+const toBase64 = (str: string) =>
+  typeof window === 'undefined'
+    ? Buffer.from(str).toString('base64')
+    : window.btoa(str);
 
 export default function Home() {
+    const params = useParams();
+    const [product, setProduct] = useState<Product | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [isImgLoading, setIsImgLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchProduct = async () => {
+            try {
+                const response = await fetch(`https://tidy-poem-da6686702e.strapiapp.com/api/products?filters[slug][$eq]=${params.slug}&populate=*`);
+                const data = await response.json();
+                if (data.data && data.data.length > 0) {
+                    setProduct(data.data[0]);
+                }
+            } catch (error) {
+                console.error('Error fetching product:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchProduct();
+    }, [params.slug]);
+
+    if (loading) {
+        return <PageLoader/>
+    }
+
+    if (!product) {
+        return (
+            <div className="min-h-screen w-full flex flex-col items-center justify-center bg-[#FFF9ED] text-center p-8">
+                <div className="text-6xl mb-4">🧐</div>
+                <h2 className="text-2xl font-bold mb-2">No Product Found</h2>
+                <p className="text-md text-gray-600 mb-6">Sorry, we could not find the product you are looking for.<br/>Please check the URL or browse our other products.</p>
+                <Link href="/" className="inline-block px-6 py-2 bg-black text-white rounded-full font-mono hover:bg-gray-800 transition">Back to Home</Link>
+            </div>
+        );
+    }
+
     return (
         <>
-            <div className="min-h-screen w-full flex items-center justify-center px-2 lg:px-16 py-[40px] lg:py-[80px] font-mono bg-[#FDC161]">
+            <div className="min-h-screen w-full flex items-center justify-center px-2 lg:px-16 py-[40px] lg:py-[80px] font-mono" style={{ backgroundColor: product.detailPageBgColor }}>
                 <div className="h-auto lg:h-[90dvh] w-full flex flex-col lg:flex-row rounded-2xl border-2 border-black overflow-hidden">
 
                     {/* MOBILE HEADER */}
-                    <div className="lg:hidden flex-[0_0_auto] flex flex-col items-center justify-center gap-2 p-2 border-b-2 border-black text-center bg-[#FDC161] z-10">
-                        <h1 className="text-3xl font-bold tracking-wider font-gliker text-[#F99F1C] text-stroke drop-shadow-stroke-2 leading-tight max-w-[12ch]">
-                            PUMPKIN SPICE
+                    <div className="lg:hidden flex-[0_0_auto] flex flex-col items-center justify-center gap-2 p-2 border-b-2 border-black text-center">
+                        <h1 className="text-3xl font-bold tracking-wider text-white font-gliker text-stroke drop-shadow-stroke-2 leading-tight max-w-[12ch]">
+                            {product.name.toUpperCase()}
                         </h1>
                         <div className="flex items-center justify-center gap-2 text-xs">
                             <span>★ ★ ★ ★ ☆</span>
@@ -23,11 +109,11 @@ export default function Home() {
                     </div>
 
                     {/* LEFT COLUMN */}
-                    <div className="order-3 lg:order-1 flex flex-col h-full lg:border-r-2 border-black w-full lg:w-[32%] min-w-0 bg-[#FDC161]">
+                    <div className="order-3 lg:order-1 flex flex-col h-full lg:border-r-2 border-black w-full lg:w-[32%] min-w-0">
                         {/* DESKTOP HEADER */}
                         <div className="hidden lg:flex flex-none flex-col items-center justify-center gap-2 p-4 border-b-2 border-black text-center">
-                            <h1 className="text-3xl lg:text-4xl xl:text-5xl font-bold tracking-wider text-stroke drop-shadow-stroke-2 font-gliker text-[#F99F1C] leading-tight max-w-[12ch] md:max-w-none">
-                                PUMPKIN SPICE
+                            <h1 className="text-3xl lg:text-4xl xl:text-4xl  text-white font-bold tracking-wider text-stroke drop-shadow-stroke-2 font-gliker leading-tight max-w-[12ch] md:max-w-none">
+                                {product.name.toUpperCase()}
                             </h1>
                             <div className="flex items-center justify-center gap-2 text-xs lg:text-md">
                                 <span>★ ★ ★ ★ ☆</span>
@@ -38,24 +124,26 @@ export default function Home() {
                         {/* DESCRIPTION - now fills available space */}
                         <div className="flex-1 flex items-center justify-center lg:border-b-2 border-black px-8 py-6 lg:py-0 text-center text-sm xl:text-md">
                             <p>
-                                Pumpkin Spice is soul-warming and robust with notes of cinnamon and clove: the quintessential autumnal introduction!
+                                {product.longDescription}
                             </p>
                         </div>
 
                         {/* Illustration (fixed height, content-based) */}
                         <div className="flex-none border-t-2 lg:border-t-0 lg:border-b-2 border-black relative">
                             <Image
-                                src="/illustration.webp"
-                                alt="Pumpkin Spice Illustration"
+                                src={product.illustrationImage.url}
+                                alt={`${product.name} Illustration`}
                                 width={1000}
                                 height={560}
-                                className="w-full h-full object-cover"
-                                priority
+                                className={`w-full h-full object-cover duration-700 ease-in-out ${isImgLoading ? 'scale-110 blur-2xl grayscale' : 'scale-100 blur-0 grayscale-0'}`}
+                                onLoad={() => setIsImgLoading(false)}
+                                placeholder="blur"
+                                blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(1000,560))}`}
                             />
                         </div>
 
                         {/* Bottom Info Grid (fixed height, content-based) */}
-                        <div className="flex-none flex flex-row border-t-2 lg:border-t-0 bg-[#FDC161]">
+                        <div className="flex-none flex flex-row border-t-2 lg:border-t-0">
                             <div className="flex-[0_0_70%] flex items-center justify-center gap-8 border-r-2 border-black py-2">
                                 <div className="flex flex-col items-center">
                                     <Image src="/pumpkin.avif" alt="Pumpkin" width={60} height={60}/>
@@ -66,15 +154,13 @@ export default function Home() {
                                     <span className="text-xs lg:text-sm uppercase tracking-wider">SPICE</span>
                                 </div>
                             </div>
-                            <div className="flex-[0_0_30%] flex flex-col justify-center pl-3 py-2 lg:py-0 text-xs">
-                                <div><span className="uppercase">NAME:</span><p>Baddie</p></div>
-                                <div><span className="uppercase">SPECIES:</span><p>Fruit Bat</p></div>
-                                <div><span className="uppercase">HOBBIES:</span><p>Hanging out</p></div>
+                            <div className="flex-[0_0_30%] flex flex-col justify-center pl-3 py-2 lg:py-0 text-[0.6rem]">
+                                <div><span className="uppercase">NAME:</span><p>{product.characterName}</p></div>
+                                <div><span className="uppercase">SPECIES:</span><p>{product.characterSpecies}</p></div>
+                                <div><span className="uppercase">HOBBIES:</span><p>{product.characterHobbies}</p></div>
                             </div>
                         </div>
                     </div>
-
-
 
                     {/* CENTER COLUMN */}
                     <div className="order-1 lg:order-2 flex-1 flex w-full py-4 lg:min-h-0 border-b-2 lg:border-b-0 lg:border-r-2 border-black min-w-0 min-h-0">
@@ -82,14 +168,14 @@ export default function Home() {
                     </div>
 
                     {/* RIGHT COLUMN */}
-                    <div className="order-2 lg:order-3 flex flex-col min-w-0 lg:min-w-[32%] min-h-0 bg-[#FDC161]">
+                    <div className="order-2 lg:order-3 flex flex-col min-w-0 lg:min-w-[32%] min-h-0">
                         {/* Products grid with scroll */}
                         <div className="flex-[1_1_0%] flex-col overflow-y-auto min-w-0 min-h-0">
                             <ProductsGrid />
                         </div>
 
                         {/* Quantity selector */}
-                        <div className="shrink-0 flex items-center justify-between px-4 py-2 text-lg border-b-2 border-black bg-[#FDC161]">
+                        <div className="shrink-0 flex items-center justify-between px-4 py-2 text-lg border-b-2 border-black">
                             <button
                                 className="w-8 h-8 flex items-center justify-center group cursor-pointer"
                                 aria-label="Decrease quantity"
@@ -120,7 +206,7 @@ export default function Home() {
                         </div>
 
                         {/* Purchase options */}
-                        <div className="shrink-0 flex flex-col justify-center px-4 py-4 text-xs lg:text-base border-b-2 border-black bg-[#FDC161]">
+                        <div className="shrink-0 flex flex-col justify-center px-4 py-4 text-xs lg:text-base border-b-2 border-black">
                             <label className="flex items-center gap-2 cursor-pointer group mb-2">
                                 <div className="relative w-4 h-4">
                                     <input type="radio" name="purchase-type" defaultChecked className="peer sr-only" />
@@ -144,20 +230,20 @@ export default function Home() {
                                     <span className="text-sm">ADD TO CART</span>
                                     <span className="text-xs">12 CANS</span>
                                 </div>
-                                <span className="font-bold">$33</span>
+                                <span className="font-bold">${product.price}</span>
                             </button>
                         </div>
                     </div>
                 </div>
 
                 {/* Mobile Add to Cart (always visible, never overlaps) */}
-                <div className="fixed bottom-0 left-0 right-0 lg:hidden z-50 bg-[#D48FCB] border-t-2 border-black">
+                <div className="fixed bottom-0 left-0 right-0 lg:hidden z-50 border-t-2 border-black" style={{backgroundColor: product.subtitleBgColor}}>
                     <button className="w-full text-black font-bold text-lg flex justify-between items-center px-4 py-4">
                         <div className="flex flex-col items-start">
                             <span className="text-sm">ADD TO CART</span>
                             <span className="text-xs">12 CANS</span>
                         </div>
-                        <span className="font-bold">$33</span>
+                        <span className="font-bold">${product.price}</span>
                     </button>
                 </div>
             </div>
