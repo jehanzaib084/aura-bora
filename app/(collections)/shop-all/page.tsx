@@ -67,7 +67,7 @@ export default function Home() {
         <div className="flex flex-wrap justify-center gap-4 md:gap-6">
           {loading ? (
             // Skeleton Loaders
-            Array.from({ length: 8 }).map((_, index) => (
+            Array.from({ length: 4 }).map((_, index) => (
               <div key={index} className="w-[280px] border border-black rounded-lg overflow-hidden flex flex-col bg-[#FFF9ED] animate-pulse">
                 {/* Header Skeleton */}
                 <div className="h-16 bg-gray-200 border-b" />
