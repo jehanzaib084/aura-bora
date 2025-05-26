@@ -54,7 +54,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen w-full flex items-center justify-center font-mono bg-[#FFFEF6]">
-      <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto px-4 py-12 w-full max-w-[1400px]">
         {/* Header */}
         <div className="flex mb-4">
           <h1 className="text-[3rem] lg:text-[5rem] leading-none text-[#F5B54A] font-gliker text-stroke drop-shadow-stroke break-words">
@@ -63,12 +63,12 @@ export default function Home() {
           <sup className="mt-4 font-mono text-md">({products.length})</sup>
         </div>
 
-        {/* Grid */}
-        <div className="grid gap-4 [grid-template-columns:repeat(auto-fill,minmax(260px,1fr))]">
+        {/* Products Container */}
+        <div className="flex flex-wrap justify-center gap-4 md:gap-6">
           {loading ? (
             // Skeleton Loaders
             Array.from({ length: 8 }).map((_, index) => (
-              <div key={index} className="border border-black rounded-lg overflow-hidden flex flex-col min-w-[260px] max-w-[280px] font-mono bg-[#FFF9ED] animate-pulse">
+              <div key={index} className="w-[280px] border border-black rounded-lg overflow-hidden flex flex-col bg-[#FFF9ED] animate-pulse">
                 {/* Header Skeleton */}
                 <div className="h-16 bg-gray-200 border-b" />
                 {/* Description Skeleton */}
@@ -83,7 +83,7 @@ export default function Home() {
             ))
           ) : (
             products.map((product, index) => (
-              <div key={product.slug} className="flex-shrink-0">
+              <div key={product.slug} className="w-[220px] md:w-[280px]">
                 <ProductCard product={product} index={index} />
               </div>
             ))
