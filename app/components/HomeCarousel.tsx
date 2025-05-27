@@ -29,11 +29,11 @@ export default function HomeCarousel() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch('https://tidy-poem-da6686702e.strapiapp.com/api/products?populate=mainImage');
+        const response = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/products?populate=mainImage`);
         const data = await response.json();
-        
+
         // Transform API data to match ProductCard type
-        const transformedProducts = data.data.map((item:  ApiProduct ) => ({
+        const transformedProducts = data.data.map((item: ApiProduct) => ({
           name: item.name,
           slug: item.slug,
           documentId: item.documentId,
@@ -83,10 +83,8 @@ export default function HomeCarousel() {
     };
   }, [emblaApi]);
 
-    return(
-        <>
-        {/* --- Carousel Section --- */}
-      <div className="w-full px-4 mt-12">
+  return (
+    <div className="w-full px-4 mt-12" >
         <div className="w-full flex flex-col mb-3 lg:mb-0 lg:flex-row items-center md:justify-between">
           <h2 className="text-[2rem] lg:text-[5rem] text-center lg:text-left font-gliker text-white text-stroke drop-shadow-stroke-2">
             OUR FLAVORS
@@ -166,7 +164,5 @@ export default function HomeCarousel() {
           </button>
         </div>
       </div>
-      {/* --- End Carousel Section --- */}
-        </>
     )
 }

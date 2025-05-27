@@ -3,7 +3,14 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   /* config options here */
   images: {
-    domains: ['tidy-poem-da6686702e.media.strapiapp.com']
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'tidy-poem-da6686702e.media.strapiapp.com',
+        port: '',
+        pathname: '/**',
+      },
+    ],
   }
 };
 

@@ -25,7 +25,7 @@ export default function Home() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch('https://tidy-poem-da6686702e.strapiapp.com/api/products?populate=mainImage');
+        const response = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/products?populate=mainImage`);
         const data = await response.json();
         
         // Transform API data to match ProductCard type

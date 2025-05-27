@@ -62,7 +62,7 @@ export default function Home() {
     useEffect(() => {
         const fetchProduct = async () => {
             try {
-                const response = await fetch(`https://tidy-poem-da6686702e.strapiapp.com/api/products?filters[slug][$eq]=${params.slug}&populate=*`);
+                const response = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/products?filters[slug][$eq]=${params.slug}&populate=*`);
                 const data = await response.json();
                 if (data.data && data.data.length > 0) {
                     setProduct(data.data[0]);
