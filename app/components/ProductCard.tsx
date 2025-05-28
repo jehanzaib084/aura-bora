@@ -1,3 +1,5 @@
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -37,14 +39,14 @@ export default function ProductCard({ product, index }: { product: Product; inde
   const [isLoading, setIsLoading] = useState(true);
 
   return (
-    <div className="border border-black rounded-lg overflow-hidden flex flex-col min-w-[220px] max-w-[280px] font-mono bg-[#FFF9ED]">
+    <div className="border border-black rounded-lg overflow-hidden flex flex-col min-w-[220px] max-w-[280px] bg-[#FFF9ED]">
       <Link href={`/${product.slug}`} className="flex flex-col flex-grow">
         {/* Header */}
         <div className="text-center py-3 border-b" style={{ backgroundColor: product.bgHeader }}>
           <h3 className="text-xs">{product.name}</h3>
         </div>
         {/* Description */}
-        <div className="text-center py-1 border-b" style={{ backgroundColor: product.bgDesc }}>
+        <div className="text-center py-1 border-b rounded-b" style={{ backgroundColor: product.bgDesc }}>
           <p className="text-xs">{product.description}</p>
         </div>
         {/* Image */}

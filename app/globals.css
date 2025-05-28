@@ -5,7 +5,7 @@
   --foreground: #171717;
 }
 @theme {
-  --font-mono: var(--font-space-mono);
+  --font-mono: var(--font-mono);
   --font-barlow: var(--font-barlow);
   --font-gliker: var(--font-gliker); 
 }
@@ -70,7 +70,6 @@
   }
 }
 
-
 @media (prefers-color-scheme: light) {
   :root {
     --background: #ededed;
@@ -81,11 +80,11 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-mono);
   cursor: url('/cursor-1.svg'), auto;
 }
 
-button{
+button {
   cursor: pointer;
 }
 
@@ -125,7 +124,6 @@ button{
   paint-order: stroke;
 }
 
-.bg-rainbow
-{
-    background-image: linear-gradient(90deg, #F1F5D3, #E5EDE1 20%, #DDDCE1 45%, #F4DDD4 80%, #FEE0B1);
+.bg-rainbow {
+  background-image: linear-gradient(90deg, #F1F5D3, #E5EDE1 20%, #DDDCE1 45%, #F4DDD4 80%, #FEE0B1);
 }
