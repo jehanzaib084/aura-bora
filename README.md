@@ -17,9 +17,6 @@
 
 Aura Bora is a cutting-edge e-commerce platform that redefines the online shopping experience. Built with the latest web technologies, it offers a seamless, responsive, and visually stunning interface for users to explore and purchase products.
 
-<div align="center">
-  <img src="https://raw.githubusercontent.com/jehanzaib084/aura-bora/main/public/desktop.png" alt="Aura Bora Desktop View" width="800"/>
-</div>
 
 ## ✨ Features
 
@@ -115,14 +112,6 @@ pnpm dev
 
 </div>
 
-## 📱 Responsive Design
-
-<div align="center">
-  <img src="https://raw.githubusercontent.com/jehanzaib084/aura-bora/main/public/mobile.png" alt="Mobile View" width="200"/>
-  <img src="https://raw.githubusercontent.com/jehanzaib084/aura-bora/main/public/desktop.png" alt="Desktop View" width="400"/>
-</div>
-
-> 💡 **Note:** These screenshots are automatically updated by our GitHub Actions workflow on every push to the main branch.
 
 ## 🤝 Contributing
 
