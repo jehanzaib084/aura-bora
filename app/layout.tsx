@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Space_Mono } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
+import { CartProvider } from './context/CartContext';
+import CartDrawerTrigger from './components/CartDrawerTrigger';
 
 const spaceMono = Space_Mono({
   variable: "--font-mono",
@@ -90,7 +92,10 @@ export default function RootLayout({
         suppressHydrationWarning
         className={`${spaceMono.variable} ${gliker.variable} antialiased`}
       >
-        {children}
+        <CartProvider>
+          <CartDrawerTrigger />
+          {children}
+        </CartProvider>
       </body>
     </html>
   );

@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
+import { useCart } from '@/app/context/CartContext';
 
 export type Product = {
   name: string;
@@ -37,6 +38,12 @@ const toBase64 = (str: string) =>
 
 export default function ProductCard({ product, index }: { product: Product; index: number }) {
   const [isLoading, setIsLoading] = useState(true);
+  const { addToCart } = useCart();
+
+  const handleAddToCart = () => {
+    addToCart(product);
+    window.dispatchEvent(new Event('open-cart-drawer'));
+  };
 
   return (
     <div className="border border-black rounded-lg overflow-hidden flex flex-col min-w-[220px] max-w-[280px] bg-[#FFF9ED]">
@@ -70,23 +77,22 @@ export default function ProductCard({ product, index }: { product: Product; inde
         </div>
       </Link>
       {/* Cart Button */}
-      <div className="flex flex-col flex-grow">
-        <button
-          className="text-center border-t uppercase tracking-wide flex flex-row justify-between w-full py-1 px-3 cursor-pointer hover:bg-[#FFF9ED]"
-          style={{ backgroundColor: product.bgFooter }}
-          aria-label={`Add ${product.name} to your cart`}
-        >
-          <span className="flex flex-col">
-            <span className="text-xs">Add to Cart</span>
-            <span className="flex gap-1">
-              <span className="text-xs font-semibold" data-package-size="12">12 cans</span>
-            </span>
+      <button
+        onClick={handleAddToCart}
+        className="text-center border-t uppercase tracking-wide flex flex-row justify-between items-center w-full py-1 px-3 cursor-pointer hover:bg-[#FFF9ED] transition-colors"
+        style={{ backgroundColor: product.bgFooter }}
+        aria-label={`Add ${product.name} to your cart`}
+      >
+        <span className="flex flex-col">
+          <span className="text-xs">Add to Cart</span>
+          <span className="flex gap-1">
+            <span className="text-xs font-semibold" data-package-size="12">12 cans</span>
           </span>
-          <span className="flex items-center">
-            <span className="text-xs font-bold">$33</span>
-          </span>
-        </button>
-      </div>
+        </span>
+        <span className="flex items-center gap-2">
+          <span className="text-xs font-bold">$33</span>
+        </span>
+      </button>
     </div>
   );
 }
