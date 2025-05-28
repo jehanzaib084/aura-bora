@@ -31,7 +31,7 @@ export const generateMetadata = (): Metadata => ({
 
 // Server-side data fetching function
 async function getProducts(): Promise<ProductCardType[]> {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/products?populate=mainImage`, {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/products?populate[mainImage][fields][0]=url`, {
     next: { revalidate: 3600 } // Revalidate every hour
   });
   const data: ApiResponse = await response.json();
