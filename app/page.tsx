@@ -9,7 +9,6 @@ import ZeroSection from '@/app/components/ZeroSection';
 import SocialLinks from '@/app/components/SocialLinks';
 import CustomTestimonialGrid from './components/TestimonialGrid';
 import HomeCarousel from './components/HomeCarousel';
-import ScrollReveal from './components/ScrollReveal';
 
 export default function Home() {
   // Embla carousel setup
@@ -43,7 +42,7 @@ export default function Home() {
     <div className="min-h-screen w-full flex flex-col items-center justify-center font-mono bg-[#FFF9ED]">
       
       {/* HomePage Story Card */}
-      <ScrollReveal className="w-full max-w-3xl px-8 py-16 flex flex-col items-center">
+      <div className="w-full max-w-3xl px-8 py-16 flex flex-col items-center">
         <div className="w-full flex flex-col">
           <p className="text-xl">
             Aura Bora is a
@@ -60,11 +59,11 @@ export default function Home() {
             </p>
           </div>
         </div>
-      </ScrollReveal>
+      </div>
       {/* HomePage Story Card END*/}
 
       {/* Marquee Carousel Animation */}
-      <ScrollReveal className="relative w-full overflow-hidden whitespace-nowrap bg-rainbow py-2 border-t-1 border-b-[1.5]">
+      <div className="relative w-full overflow-hidden whitespace-nowrap bg-rainbow py-2 border-t-1 border-b-[1.5]">
         <div className="flex animate-marquee">
           <div className="flex shrink-0 items-center space-x-6 px-4">
             <span className="inline-block mx-6 bullet-before">Zero Sugar</span>
@@ -85,23 +84,17 @@ export default function Home() {
             <span className="inline-block mx-6 bullet-before">Zero Calories</span>
           </div>
         </div>
-      </ScrollReveal>
+      </div>
       {/* Marquee Carousel Animation END */}
 
       {/* --- Carousel Section --- */}
-      <ScrollReveal>
-        <HomeCarousel />
-      </ScrollReveal>
+      <HomeCarousel />
       {/* --- End Carousel Section --- */}
 
       {/* Zero Section */}
-      <ScrollReveal>
-        <ZeroSection />
-      </ScrollReveal>
+      <ZeroSection />
 
-      <ScrollReveal>
-        <CustomTestimonialGrid />
-      </ScrollReveal>
+      <CustomTestimonialGrid />
 
       <SocialLinks />
   
