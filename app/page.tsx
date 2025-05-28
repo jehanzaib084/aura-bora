@@ -1,43 +1,10 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-'use client';
-
-import { useState, useEffect } from 'react';
-
 import StoryCard from '@/app/components/StoryCard';
-import useEmblaCarousel from 'embla-carousel-react';
 import ZeroSection from '@/app/components/ZeroSection';
 import SocialLinks from '@/app/components/SocialLinks';
 import CustomTestimonialGrid from './components/TestimonialGrid';
-import HomeCarousel from './components/HomeCarousel';
+import HomeCarouselWrapper from './components/HomeCarouselWrapper';
 
-export default function Home() {
-  // Embla carousel setup
-  const [emblaRef, emblaApi] = useEmblaCarousel({
-    loop: false,
-    align: 'start',
-    slidesToScroll: 1
-  });
-
-  const [prevBtnEnabled, setPrevBtnEnabled] = useState(false);
-  const [nextBtnEnabled, setNextBtnEnabled] = useState(true);
-
-  // Add scroll handlers
-  useEffect(() => {
-    if (!emblaApi) return;
-
-    const onSelect = () => {
-      setPrevBtnEnabled(emblaApi.canScrollPrev());
-      setNextBtnEnabled(emblaApi.canScrollNext());
-    };
-
-    emblaApi.on('select', onSelect);
-    onSelect();
-
-    return () => {
-      emblaApi.off('select', onSelect);
-    };
-  }, [emblaApi]);
-
+export default async function Home() {
   return (
     <div className="min-h-screen w-full flex flex-col items-center justify-center font-mono bg-[#FFF9ED]">
       
@@ -87,11 +54,8 @@ export default function Home() {
       </div>
       {/* Marquee Carousel Animation END */}
 
-      {/* --- Carousel Section --- */}
-      <HomeCarousel />
-      {/* --- End Carousel Section --- */}
+      <HomeCarouselWrapper />
 
-      {/* Zero Section */}
       <ZeroSection />
 
       <CustomTestimonialGrid />

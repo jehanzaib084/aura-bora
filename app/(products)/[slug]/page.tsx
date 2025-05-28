@@ -1,15 +1,10 @@
-'use client';
-
 import Image from "next/image";
 import ProductDetailCarousel from "@/app/components/ProductDetailCarousel";
 import ProductsGrid from "@/app/components/ProductsGrid";
 import KnowYourCans from "@/app/components/KnowYourCan";
-import { useState, useEffect } from 'react';
-import { useParams } from 'next/navigation';
-import PageLoader from "@/app/components/PageLoader";
 import Link from "next/link";
 
-interface Product {
+interface ApiProduct {
   name: string;
   slug: string;
   price: number;
@@ -33,6 +28,10 @@ interface Product {
   }
 }
 
+interface ApiResponse {
+  data: ApiProduct[];
+}
+
 // shimmer loader utilities
 const shimmer = (w: number, h: number) => `
 <svg width="${w}" height="${h}" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -53,33 +52,20 @@ const toBase64 = (str: string) =>
     ? Buffer.from(str).toString('base64')
     : window.btoa(str);
 
-export default function Home() {
-    const params = useParams();
-    const [product, setProduct] = useState<Product | null>(null);
-    const [loading, setLoading] = useState(true);
-    const [isImgLoading, setIsImgLoading] = useState(true);
+// This is a server component that fetches data
+async function getProduct(slug: string): Promise<ApiProduct | null> {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/products?filters[slug][$eq]=${slug}&populate[mainImage][fields][0]=url&populate[illustrationImage][fields][0]=url&populate[additionalImages][fields][0]=url`, {
+        next: { revalidate: 3600 } // Revalidate every hour
+    });
+    const data: ApiResponse = await response.json();
+    return data.data?.[0] || null;
+}
 
-    useEffect(() => {
-        const fetchProduct = async () => {
-            try {
-                const response = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/products?filters[slug][$eq]=${params.slug}&populate=*`);
-                const data = await response.json();
-                if (data.data && data.data.length > 0) {
-                    setProduct(data.data[0]);
-                }
-            } catch (error) {
-                console.error('Error fetching product:', error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchProduct();
-    }, [params.slug]);
-
-    if (loading) {
-        return <PageLoader/>
-    }
+export default async function ProductPage({ params }: { params: { slug: string } }) {
+    // Await the params object before accessing its properties
+    const resolvedParams = await params;
+    const slug = resolvedParams.slug;
+    const product = await getProduct(slug);
 
     if (!product) {
         return (
@@ -96,7 +82,6 @@ export default function Home() {
         <>
             <div className="min-h-screen w-full flex items-center justify-center px-2 lg:px-16 py-[40px] lg:py-[80px] font-mono" style={{ backgroundColor: product.detailPageBgColor }}>
                 <div className="h-auto lg:h-[90dvh] w-full flex flex-col lg:flex-row rounded-2xl border-2 border-black overflow-hidden">
-
                     {/* MOBILE HEADER */}
                     <div className="lg:hidden flex-[0_0_auto] flex flex-col items-center justify-center gap-2 p-2 border-b-2 border-black text-center">
                         <h1 className="text-3xl font-bold tracking-wider text-white font-gliker text-stroke drop-shadow-stroke-2 leading-tight max-w-[12ch]">
@@ -135,8 +120,7 @@ export default function Home() {
                                 alt={`${product.name} Illustration`}
                                 width={1000}
                                 height={560}
-                                className={`w-full h-full object-cover duration-700 ease-in-out ${isImgLoading ? 'scale-110 blur-2xl grayscale' : 'scale-100 blur-0 grayscale-0'}`}
-                                onLoad={() => setIsImgLoading(false)}
+                                className="w-full h-full object-cover duration-700 ease-in-out"
                                 placeholder="blur"
                                 blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(1000,560))}`}
                             />

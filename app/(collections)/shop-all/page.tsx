@@ -1,6 +1,3 @@
-'use client';
-
-import { useState, useEffect } from 'react';
 import ProductCard, { Product as ProductCardType } from '@/app/components/ProductCard';
 
 interface ApiProduct {
@@ -18,39 +15,32 @@ interface ApiProduct {
   detailPageBgColor: string;
 }
 
-export default function Home() {
-  const [products, setProducts] = useState<ProductCardType[]>([]);
-  const [loading, setLoading] = useState(true);
+interface ApiResponse {
+  data: ApiProduct[];
+}
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/products?populate=mainImage`);
-        const data = await response.json();
-        
-        // Transform API data to match ProductCard type
-        const transformedProducts = data.data.map((item: ApiProduct) => ({
-          name: item.name,
-          slug: item.slug,
-          documentId: item.documentId,
-          description: item.shortDescription,
-          img: item.mainImage.url,
-          bgHeader: item.headerBgColor,
-          bgDesc: item.titleBgColor,
-          bgFooter: item.subtitleBgColor,
-          detailPageBgColor: item.detailPageBgColor
-        }));
+// Server-side data fetching function
+async function getProducts(): Promise<ProductCardType[]> {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/products?populate=mainImage`, {
+    next: { revalidate: 3600 } // Revalidate every hour
+  });
+  const data: ApiResponse = await response.json();
+  
+  return data.data.map((item: ApiProduct): ProductCardType => ({
+    name: item.name,
+    slug: item.slug,
+    documentId: item.documentId,
+    description: item.shortDescription,
+    img: item.mainImage.url,
+    bgHeader: item.headerBgColor,
+    bgDesc: item.titleBgColor,
+    bgFooter: item.subtitleBgColor,
+    detailPageBgColor: item.detailPageBgColor
+  }));
+}
 
-        setProducts(transformedProducts);
-      } catch (error) {
-        console.error('Error fetching products:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProducts();
-  }, []);
+export default async function ShopAllPage() {
+  const products = await getProducts();
 
   return (
     <div className="min-h-screen w-full flex items-center justify-center font-mono bg-[#FFFEF6]">
@@ -65,29 +55,11 @@ export default function Home() {
 
         {/* Products Container */}
         <div className="flex flex-wrap justify-center gap-4 md:gap-6">
-          {loading ? (
-            // Skeleton Loaders
-            Array.from({ length: 4 }).map((_, index) => (
-              <div key={index} className="w-[280px] border border-black rounded-lg overflow-hidden flex flex-col bg-[#FFF9ED] animate-pulse">
-                {/* Header Skeleton */}
-                <div className="h-16 bg-gray-200 border-b" />
-                {/* Description Skeleton */}
-                <div className="h-12 bg-gray-100 border-b" />
-                {/* Image Skeleton */}
-                <div className="w-full min-h-[160px] flex items-center justify-center p-3 bg-[#FFF9ED]">
-                  <div className="w-[200px] h-[300px] bg-gray-200" />
-                </div>
-                {/* Button Skeleton */}
-                <div className="h-16 bg-gray-200 border-t" />
-              </div>
-            ))
-          ) : (
-            products.map((product, index) => (
-              <div key={product.slug} className="w-[220px] md:w-[280px]">
-                <ProductCard product={product} index={index} />
-              </div>
-            ))
-          )}
+          {products.map((product: ProductCardType, index: number) => (
+            <div key={product.slug} className="w-[220px] md:w-[280px]">
+              <ProductCard product={product} index={index} />
+            </div>
+          ))}
         </div>
       </div>
     </div>
