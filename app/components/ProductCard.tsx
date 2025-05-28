@@ -8,6 +8,7 @@ import { useCart } from '@/app/context/CartContext';
 export type Product = {
   name: string;
   slug: string;
+  price: string;
   documentId: string;
   description: string;
   img: string;
@@ -50,7 +51,7 @@ export default function ProductCard({ product, index }: { product: Product; inde
       <Link href={`/${product.slug}`} className="flex flex-col flex-grow">
         {/* Header */}
         <div className="text-center py-3 border-b" style={{ backgroundColor: product.bgHeader }}>
-          <h3 className="text-xs">{product.name}</h3>
+          <h2 className="text-xs">{product.name}</h2>
         </div>
         {/* Description */}
         <div className="text-center py-1 border-b rounded-b" style={{ backgroundColor: product.bgDesc }}>
@@ -90,7 +91,7 @@ export default function ProductCard({ product, index }: { product: Product; inde
           </span>
         </span>
         <span className="flex items-center gap-2">
-          <span className="text-xs font-bold">$33</span>
+          <span className="text-xs font-bold">${product.price}</span>
         </span>
       </button>
     </div>

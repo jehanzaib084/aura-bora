@@ -1,9 +1,11 @@
 import ProductCard, { Product as ProductCardType } from '@/app/components/ProductCard';
+import { Metadata } from 'next';
 
 interface ApiProduct {
   name: string;
   slug: string;
   documentId: string;
+  price: string;
   mainImage: {
     url: string;
   };
@@ -19,6 +21,14 @@ interface ApiResponse {
   data: ApiProduct[];
 }
 
+export const generateMetadata = (): Metadata => ({
+  title: 'Shop All | Aura Bora',
+  description: 'Browse all Aura Bora products.',
+  alternates: {
+    canonical: 'https://aura084.com/collections/shop-all',
+  },
+});
+
 // Server-side data fetching function
 async function getProducts(): Promise<ProductCardType[]> {
   const response = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/products?populate=mainImage`, {
@@ -30,6 +40,7 @@ async function getProducts(): Promise<ProductCardType[]> {
     name: item.name,
     slug: item.slug,
     documentId: item.documentId,
+    price: item.price,
     description: item.shortDescription,
     img: item.mainImage.url,
     bgHeader: item.headerBgColor,

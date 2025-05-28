@@ -1,80 +1,53 @@
 'use client';
 
-import { useState } from 'react';
-import { z } from 'zod';
+import { useForm } from 'react-hook-form';
+import { useEffect } from 'react';
 
-// Validation schema
-const userDetailsSchema = z.object({
-  email: z.string().email('Please enter a valid email address'),
-  firstName: z.string().min(1, 'First name is required'),
-  lastName: z.string().min(1, 'Last name is required'),
-  address: z.string().min(1, 'Address is required'),
-  city: z.string().min(1, 'City is required'),
-  state: z.string().min(1, 'State is required'),
-  zipCode: z.string().min(1, 'ZIP code is required'),
-  country: z.string().min(1, 'Country is required'),
-  phone: z.string().min(1, 'Phone number is required'),
-});
-
-export type UserDetails = z.infer<typeof userDetailsSchema>;
+export type UserDetails = {
+  email: string;
+  firstName: string;
+  lastName: string;
+  address: string;
+  city: string;
+  state: string;
+  zipCode: string;
+  country: string;
+  phone: string;
+};
 
 interface CheckoutFormProps {
   onSubmit: (details: UserDetails) => void;
   isProcessing: boolean;
+  onFormStateChange: (isValid: boolean) => void;
 }
 
-export default function CheckoutForm({ onSubmit, isProcessing }: CheckoutFormProps) {
-  const [userDetails, setUserDetails] = useState<UserDetails>({
-    email: '',
-    firstName: '',
-    lastName: '',
-    address: '',
-    city: '',
-    state: '',
-    zipCode: '',
-    country: '',
-    phone: '',
+export default function CheckoutForm({ onSubmit, isProcessing, onFormStateChange }: CheckoutFormProps) {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm<UserDetails>({
+    mode: 'onChange',
+    defaultValues: {
+      email: '',
+      firstName: '',
+      lastName: '',
+      address: '',
+      city: '',
+      state: '',
+      zipCode: '',
+      country: '',
+      phone: '',
+    },
   });
 
-  const [errors, setErrors] = useState<Partial<Record<keyof UserDetails, string>>>({});
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (isProcessing) return;
-    const { name, value } = e.target;
-    setUserDetails(prev => ({ ...prev, [name]: value }));
-    // Clear error when user starts typing
-    if (errors[name as keyof UserDetails]) {
-      setErrors(prev => ({ ...prev, [name]: undefined }));
-    }
-  };
-
-  const validateForm = () => {
-    try {
-      userDetailsSchema.parse(userDetails);
-      setErrors({});
-      return true;
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        const newErrors: Partial<Record<keyof UserDetails, string>> = {};
-        error.errors.forEach(err => {
-          const path = err.path[0] as keyof UserDetails;
-          newErrors[path] = err.message;
-        });
-        setErrors(newErrors);
-      }
-      return false;
-    }
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (validateForm() && !isProcessing) {
-      onSubmit(userDetails);
-    }
-  };
+  // Notify parent of form validity
+  useEffect(() => {
+    onFormStateChange(isValid);
+  }, [isValid, onFormStateChange]);
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       {/* Contact Information */}
       <div>
         <h3 className="text-lg font-semibold mb-4">Contact Information</h3>
@@ -86,19 +59,11 @@ export default function CheckoutForm({ onSubmit, isProcessing }: CheckoutFormPro
             <input
               type="email"
               id="email"
-              name="email"
-              value={userDetails.email}
-              onChange={handleInputChange}
+              {...register('email', { required: 'Email is required', pattern: { value: /^\S+@\S+$/, message: 'Invalid email' } })}
               className={`w-full p-3 border rounded-lg ${errors.email ? 'border-red-500' : ''}`}
-              aria-invalid={!!errors.email}
-              aria-describedby={errors.email ? 'email-error' : undefined}
               disabled={isProcessing}
             />
-            {errors.email && (
-              <p id="email-error" className="mt-1 text-sm text-red-600">
-                {errors.email}
-              </p>
-            )}
+            {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>}
           </div>
           <div>
             <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
@@ -107,23 +72,14 @@ export default function CheckoutForm({ onSubmit, isProcessing }: CheckoutFormPro
             <input
               type="tel"
               id="phone"
-              name="phone"
-              value={userDetails.phone}
-              onChange={handleInputChange}
+              {...register('phone', { required: 'Phone is required' })}
               className={`w-full p-3 border rounded-lg ${errors.phone ? 'border-red-500' : ''}`}
-              aria-invalid={!!errors.phone}
-              aria-describedby={errors.phone ? 'phone-error' : undefined}
               disabled={isProcessing}
             />
-            {errors.phone && (
-              <p id="phone-error" className="mt-1 text-sm text-red-600">
-                {errors.phone}
-              </p>
-            )}
+            {errors.phone && <p className="mt-1 text-sm text-red-600">{errors.phone.message}</p>}
           </div>
         </div>
       </div>
-
       {/* Shipping Information */}
       <div>
         <h3 className="text-lg font-semibold mb-4">Shipping Information</h3>
@@ -136,19 +92,11 @@ export default function CheckoutForm({ onSubmit, isProcessing }: CheckoutFormPro
               <input
                 type="text"
                 id="firstName"
-                name="firstName"
-                value={userDetails.firstName}
-                onChange={handleInputChange}
+                {...register('firstName', { required: 'First name is required' })}
                 className={`w-full p-3 border rounded-lg ${errors.firstName ? 'border-red-500' : ''}`}
-                aria-invalid={!!errors.firstName}
-                aria-describedby={errors.firstName ? 'firstName-error' : undefined}
                 disabled={isProcessing}
               />
-              {errors.firstName && (
-                <p id="firstName-error" className="mt-1 text-sm text-red-600">
-                  {errors.firstName}
-                </p>
-              )}
+              {errors.firstName && <p className="mt-1 text-sm text-red-600">{errors.firstName.message}</p>}
             </div>
             <div>
               <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-1">
@@ -157,22 +105,13 @@ export default function CheckoutForm({ onSubmit, isProcessing }: CheckoutFormPro
               <input
                 type="text"
                 id="lastName"
-                name="lastName"
-                value={userDetails.lastName}
-                onChange={handleInputChange}
+                {...register('lastName', { required: 'Last name is required' })}
                 className={`w-full p-3 border rounded-lg ${errors.lastName ? 'border-red-500' : ''}`}
-                aria-invalid={!!errors.lastName}
-                aria-describedby={errors.lastName ? 'lastName-error' : undefined}
                 disabled={isProcessing}
               />
-              {errors.lastName && (
-                <p id="lastName-error" className="mt-1 text-sm text-red-600">
-                  {errors.lastName}
-                </p>
-              )}
+              {errors.lastName && <p className="mt-1 text-sm text-red-600">{errors.lastName.message}</p>}
             </div>
           </div>
-
           <div>
             <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-1">
               Address
@@ -180,21 +119,12 @@ export default function CheckoutForm({ onSubmit, isProcessing }: CheckoutFormPro
             <input
               type="text"
               id="address"
-              name="address"
-              value={userDetails.address}
-              onChange={handleInputChange}
+              {...register('address', { required: 'Address is required' })}
               className={`w-full p-3 border rounded-lg ${errors.address ? 'border-red-500' : ''}`}
-              aria-invalid={!!errors.address}
-              aria-describedby={errors.address ? 'address-error' : undefined}
               disabled={isProcessing}
             />
-            {errors.address && (
-              <p id="address-error" className="mt-1 text-sm text-red-600">
-                {errors.address}
-              </p>
-            )}
+            {errors.address && <p className="mt-1 text-sm text-red-600">{errors.address.message}</p>}
           </div>
-
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label htmlFor="city" className="block text-sm font-medium text-gray-700 mb-1">
@@ -203,19 +133,11 @@ export default function CheckoutForm({ onSubmit, isProcessing }: CheckoutFormPro
               <input
                 type="text"
                 id="city"
-                name="city"
-                value={userDetails.city}
-                onChange={handleInputChange}
+                {...register('city', { required: 'City is required' })}
                 className={`w-full p-3 border rounded-lg ${errors.city ? 'border-red-500' : ''}`}
-                aria-invalid={!!errors.city}
-                aria-describedby={errors.city ? 'city-error' : undefined}
                 disabled={isProcessing}
               />
-              {errors.city && (
-                <p id="city-error" className="mt-1 text-sm text-red-600">
-                  {errors.city}
-                </p>
-              )}
+              {errors.city && <p className="mt-1 text-sm text-red-600">{errors.city.message}</p>}
             </div>
             <div>
               <label htmlFor="state" className="block text-sm font-medium text-gray-700 mb-1">
@@ -224,22 +146,13 @@ export default function CheckoutForm({ onSubmit, isProcessing }: CheckoutFormPro
               <input
                 type="text"
                 id="state"
-                name="state"
-                value={userDetails.state}
-                onChange={handleInputChange}
+                {...register('state', { required: 'State is required' })}
                 className={`w-full p-3 border rounded-lg ${errors.state ? 'border-red-500' : ''}`}
-                aria-invalid={!!errors.state}
-                aria-describedby={errors.state ? 'state-error' : undefined}
                 disabled={isProcessing}
               />
-              {errors.state && (
-                <p id="state-error" className="mt-1 text-sm text-red-600">
-                  {errors.state}
-                </p>
-              )}
+              {errors.state && <p className="mt-1 text-sm text-red-600">{errors.state.message}</p>}
             </div>
           </div>
-
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label htmlFor="zipCode" className="block text-sm font-medium text-gray-700 mb-1">
@@ -248,19 +161,11 @@ export default function CheckoutForm({ onSubmit, isProcessing }: CheckoutFormPro
               <input
                 type="text"
                 id="zipCode"
-                name="zipCode"
-                value={userDetails.zipCode}
-                onChange={handleInputChange}
+                {...register('zipCode', { required: 'ZIP code is required' })}
                 className={`w-full p-3 border rounded-lg ${errors.zipCode ? 'border-red-500' : ''}`}
-                aria-invalid={!!errors.zipCode}
-                aria-describedby={errors.zipCode ? 'zipCode-error' : undefined}
                 disabled={isProcessing}
               />
-              {errors.zipCode && (
-                <p id="zipCode-error" className="mt-1 text-sm text-red-600">
-                  {errors.zipCode}
-                </p>
-              )}
+              {errors.zipCode && <p className="mt-1 text-sm text-red-600">{errors.zipCode.message}</p>}
             </div>
             <div>
               <label htmlFor="country" className="block text-sm font-medium text-gray-700 mb-1">
@@ -269,23 +174,16 @@ export default function CheckoutForm({ onSubmit, isProcessing }: CheckoutFormPro
               <input
                 type="text"
                 id="country"
-                name="country"
-                value={userDetails.country}
-                onChange={handleInputChange}
+                {...register('country', { required: 'Country is required' })}
                 className={`w-full p-3 border rounded-lg ${errors.country ? 'border-red-500' : ''}`}
-                aria-invalid={!!errors.country}
-                aria-describedby={errors.country ? 'country-error' : undefined}
                 disabled={isProcessing}
               />
-              {errors.country && (
-                <p id="country-error" className="mt-1 text-sm text-red-600">
-                  {errors.country}
-                </p>
-              )}
+              {errors.country && <p className="mt-1 text-sm text-red-600">{errors.country.message}</p>}
             </div>
           </div>
         </div>
       </div>
+      <button type="submit" className="hidden" />
     </form>
   );
 } 

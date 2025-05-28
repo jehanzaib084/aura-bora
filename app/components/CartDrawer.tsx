@@ -3,8 +3,8 @@
 import { useCart } from '@/app/context/CartContext';
 import Image from 'next/image';
 import Link from 'next/link';
-import { X, Minus, Plus, Trash2 } from 'lucide-react';
-import { useEffect } from 'react';
+import { X, Minus, Plus, Trash2, Loader2 } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 interface CartDrawerProps {
   open: boolean;
@@ -13,6 +13,7 @@ interface CartDrawerProps {
 
 export default function CartDrawer({ open, onClose }: CartDrawerProps) {
   const { items, removeFromCart, updateQuantity, totalItems, totalPrice } = useCart();
+  const [isLoading, setIsLoading] = useState(true);
 
   // Prevent background scroll when drawer is open
   useEffect(() => {
@@ -26,11 +27,23 @@ export default function CartDrawer({ open, onClose }: CartDrawerProps) {
     };
   }, [open]);
 
+  // Simulate loading state when items are being loaded from localStorage
+  useEffect(() => {
+    if (open) {
+      setIsLoading(true);
+      const timer = setTimeout(() => {
+        setIsLoading(false);
+      }, 500); // Small delay to show loading state
+      return () => clearTimeout(timer);
+    }
+  }, [open]);
+
   return (
     <div
       className={`fixed inset-0 z-200 transition-all duration-300 ${open ? 'pointer-events-auto' : 'pointer-events-none'}`}
       aria-modal="true"
       role="dialog"
+      aria-label="Shopping cart"
     >
       {/* Overlay */}
       <div
@@ -50,17 +63,15 @@ export default function CartDrawer({ open, onClose }: CartDrawerProps) {
         </div>
         {/* Cart Content */}
         <div className="flex-1 overflow-y-auto">
-          {items.length === 0 ? (
+          {isLoading ? (
+            <div className="flex flex-col items-center justify-center h-full">
+              <Loader2 className="w-8 h-8 animate-spin text-[#F5B54A]" />
+              <p className="mt-4 text-gray-600">Loading your cart...</p>
+            </div>
+          ) : items.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full text-center">
               <span className="text-3xl mb-2">🛒</span>
               <p className="text-lg font-semibold mb-2">Oh no! Your cart is super empty :(</p>
-              <Link
-                href="/shop-all"
-                className="mt-4 px-4 py-2 rounded-full bg-[#F5B54A] text-black hover:bg-[#e5a53a] transition-colors"
-                onClick={onClose}
-              >
-                Keep Shopping
-              </Link>
             </div>
           ) : (
             <div>
@@ -95,7 +106,7 @@ export default function CartDrawer({ open, onClose }: CartDrawerProps) {
           </div>
           <Link
             href="/checkout"
-            className="w-full block text-center px-4 py-2 rounded-full bg-[#F5B54A] text-black hover:bg-[#e5a53a] transition-colors"
+            className="block w-full bg-[#F5B54A] text-black py-3 rounded-lg font-bold text-lg text-center hover:bg-[#e5a53a] transition-colors"
             onClick={onClose}
           >
             Proceed to Checkout

@@ -37,7 +37,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     localStorage.setItem('cart', JSON.stringify(items));
     // Calculate totals
     const total = items.reduce((sum, item) => sum + item.quantity, 0);
-    const price = items.reduce((sum, item) => sum + (item.quantity * 33), 0); // Assuming $33 per item
+    const price = items.reduce((sum, item) => sum + (item.quantity * Number(item.price)), 0);
     setTotalItems(total);
     setTotalPrice(price);
   }, [items]);

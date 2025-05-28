@@ -5,6 +5,7 @@ interface ApiProduct {
   name: string;
   slug: string;
   documentId: string;
+  price: string;
   mainImage: {
     url: string;
   };
@@ -29,6 +30,7 @@ async function getProducts() {
     name: item.name,
     slug: item.slug,
     documentId: item.documentId,
+    price: item.price,
     description: item.shortDescription,
     img: item.mainImage.url,
     bgHeader: item.headerBgColor,

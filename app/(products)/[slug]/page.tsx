@@ -31,6 +31,7 @@ interface ApiProduct {
 interface ApiResponse {
   data: ApiProduct[];
 }
+  
 
 // shimmer loader utilities
 const shimmer = (w: number, h: number) => `
