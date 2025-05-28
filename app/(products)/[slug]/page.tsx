@@ -61,8 +61,11 @@ async function getProduct(slug: string): Promise<ApiProduct | null> {
     return data.data?.[0] || null;
 }
 
-export default async function ProductPage({ params }: { params: { slug: string } }) {
-    // Await the params object before accessing its properties
+export default async function ProductPage({
+    params,
+}: {
+    params: Promise<{ slug: string }>
+}) {
     const resolvedParams = await params;
     const slug = resolvedParams.slug;
     const product = await getProduct(slug);
