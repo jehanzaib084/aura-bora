@@ -62,6 +62,36 @@ async function getProduct(slug: string): Promise<ApiProduct | null> {
     return data.data?.[0] || null;
 }
 
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+    const resolvedParams = await params;
+    const slug = resolvedParams.slug;
+    const product = await getProduct(slug);
+
+    if (!product) {
+        return {
+            title: "Product Not Found",
+            description: "Sorry, we could not find the product you are looking for.",
+        };
+    }
+
+    return {
+        title: product.name,
+        description: product.shortDescription,
+        openGraph: {
+            title: product.name,
+            description: product.shortDescription,
+            images: [
+                {
+                    url: product.mainImage.url,
+                    width: 800,
+                    height: 600,
+                    alt: product.name,
+                },
+            ],
+        },
+    };
+}
+
 export default async function ProductPage({
     params,
 }: {
@@ -134,15 +164,15 @@ export default async function ProductPage({
                         <div className="flex-none flex flex-row border-t-2 lg:border-t-0">
                             <div className="flex-[0_0_70%] flex items-center justify-center gap-8 border-r-2 border-black py-2">
                                 <div className="flex flex-col items-center">
-                                    <Image src="/pumpkin.avif" alt="Pumpkin" width={60} height={60}/>
-                                    <span className="text-xs lg:text-sm uppercase tracking-wider">PUMPKIN</span>
+                                    <Image src="/pumpkin.avif" alt="Pumpkin" width={50} height={50}/>
+                                    <span className="text-xs uppercase tracking-wider">PUMPKIN</span>
                                 </div>
                                 <div className="flex flex-col items-center">
-                                    <Image src="/spice.avif" alt="Spice" width={60} height={60}/>
-                                    <span className="text-xs lg:text-sm uppercase tracking-wider">SPICE</span>
+                                    <Image src="/spice.avif" alt="Spice" width={50} height={50}/>
+                                    <span className="text-xs uppercase tracking-wider">SPICE</span>
                                 </div>
                             </div>
-                            <div className="flex-[0_0_30%] flex flex-col justify-center pl-3 py-2 lg:py-0 text-[0.6rem]">
+                            <div className="flex-[0_0_30%] flex flex-col justify-center pl-3 py-2 lg:py-0 text-[0.5rem]">
                                 <div><span className="uppercase">NAME:</span><p>{product.characterName}</p></div>
                                 <div><span className="uppercase">SPECIES:</span><p>{product.characterSpecies}</p></div>
                                 <div><span className="uppercase">HOBBIES:</span><p>{product.characterHobbies}</p></div>

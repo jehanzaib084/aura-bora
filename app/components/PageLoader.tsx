@@ -1,22 +1,7 @@
-'use client';
-
-import Image from 'next/image';
-
 export default function PageLoader() {
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#FFF9ED]">
             <div className="flex flex-col items-center gap-8">
-                {/* Logo Animation */}
-                <div className="relative w-32 h-32">
-                    <Image
-                        src="/logo.svg"
-                        alt="Aura Bora Logo"
-                        fill
-                        className="object-contain"
-                        priority
-                    />
-                </div>
-
                 {/* Loading Text */}
                 <div className="flex flex-col items-center gap-2">
                     <h2 className="text-2xl font-gliker text-[#F5B54A] text-stroke drop-shadow-stroke">
