@@ -62,6 +62,35 @@ async function getProduct(slug: string): Promise<ApiProduct | null> {
     return data.data?.[0] || null;
 }
 
+// Get all products for static generation
+async function getAllProducts(): Promise<ApiProduct[]> {
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/products?populate[mainImage][fields][0]=url&populate[illustrationImage][fields][0]=url&populate[additionalImages][fields][0]=url`, {
+      next: { revalidate: 3600 }
+    });
+    
+    if (!response.ok) {
+      console.error('Failed to fetch products for static paths');
+      return [];
+    }
+
+    const { data } = await response.json() as ApiResponse;
+    return Array.isArray(data) ? data : [];
+  } catch (error) {
+    console.error('Error fetching products for static paths:', error);
+    return [];
+  }
+}
+
+export async function generateStaticParams() {
+  const products = await getAllProducts();
+  console.log(`Generating static params for ${products.length} products`);
+  
+  return products.map((product) => ({
+    slug: product.slug,
+  }));
+}
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
     const resolvedParams = await params;
     const slug = resolvedParams.slug;

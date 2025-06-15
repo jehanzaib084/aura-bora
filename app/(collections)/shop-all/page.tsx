@@ -34,7 +34,14 @@ export const generateMetadata = (): Metadata => ({
 // Server-side data fetching function
 async function getProducts(): Promise<ProductCardType[]> {
   try {
+    if (!process.env.NEXT_PUBLIC_STRAPI_URL) {
+      console.error('NEXT_PUBLIC_STRAPI_URL is not defined');
+      return [];
+    }
+
     const url = `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/products?populate[mainImage][fields][0]=url`;
+    console.log('Fetching products from:', url);
+    
     const response = await fetch(url, { 
       next: { revalidate: 3600 },
       headers: {
