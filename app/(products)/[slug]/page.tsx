@@ -64,17 +64,23 @@ async function getProduct(slug: string): Promise<ApiProduct | null> {
 
 // Get all products for static generation
 async function getAllProducts(): Promise<ApiProduct[]> {
+  console.log('Environment check - NEXT_PUBLIC_STRAPI_URL:', process.env.NEXT_PUBLIC_STRAPI_URL ? 'defined' : 'undefined');
+  
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/products?populate[mainImage][fields][0]=url&populate[illustrationImage][fields][0]=url&populate[additionalImages][fields][0]=url`, {
+    const url = `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/products?populate[mainImage][fields][0]=url&populate[illustrationImage][fields][0]=url&populate[additionalImages][fields][0]=url`;
+    console.log('Fetching all products from:', url);
+    
+    const response = await fetch(url, {
       next: { revalidate: 3600 }
     });
     
     if (!response.ok) {
-      console.error('Failed to fetch products for static paths');
+      console.error('Failed to fetch products for static paths:', response.status, await response.text());
       return [];
     }
 
     const { data } = await response.json() as ApiResponse;
+    console.log(`API response received with ${Array.isArray(data) ? data.length : 0} products`);
     return Array.isArray(data) ? data : [];
   } catch (error) {
     console.error('Error fetching products for static paths:', error);
@@ -83,12 +89,16 @@ async function getAllProducts(): Promise<ApiProduct[]> {
 }
 
 export async function generateStaticParams() {
+  console.log('Starting to generate static params...');
   const products = await getAllProducts();
-  console.log(`Generating static params for ${products.length} products`);
+  console.log(`Found ${products.length} products for static generation`);
   
-  return products.map((product) => ({
+  const params = products.map((product) => ({
     slug: product.slug,
   }));
+  
+  console.log('Generated params for products:', params.map(p => p.slug).join(', '));
+  return params;
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
