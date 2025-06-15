@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'tidy-poem-da6686702e.media.strapiapp.com',
+        hostname: 'cms.omanhajrimovers.com',
         port: '',
         pathname: '/**',
       },

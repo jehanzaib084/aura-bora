@@ -42,7 +42,7 @@ async function getProducts(): Promise<ProductCardType[]> {
     documentId: item.documentId,
     price: item.price,
     description: item.shortDescription,
-    img: item.mainImage.url,
+    img: `${process.env.NEXT_PUBLIC_STRAPI_URL}${item.mainImage.url}`,
     bgHeader: item.headerBgColor,
     bgDesc: item.titleBgColor,
     bgFooter: item.subtitleBgColor,

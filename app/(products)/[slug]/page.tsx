@@ -82,7 +82,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
             description: product.shortDescription,
             images: [
                 {
-                    url: product.mainImage.url,
+                    url: `${process.env.NEXT_PUBLIC_STRAPI_URL}${product.mainImage.url}`,
                     width: 800,
                     height: 600,
                     alt: product.name,
@@ -149,8 +149,7 @@ export default async function ProductPage({
 
                         {/* Illustration (fixed height, content-based) */}
                         <div className="flex-none border-t-2 lg:border-t-0 lg:border-b-2 border-black relative">
-                            <Image
-                                src={product.illustrationImage.url}
+                            <Image                                src={`${process.env.NEXT_PUBLIC_STRAPI_URL}${product.illustrationImage.url}`}
                                 alt={`${product.name} Illustration`}
                                 width={1000}
                                 height={560}

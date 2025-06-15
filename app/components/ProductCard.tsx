@@ -51,11 +51,11 @@ export default function ProductCard({ product, index }: { product: Product; inde
       <Link href={`/${product.slug}`} className="flex flex-col flex-grow">
         {/* Header */}
         <div className="text-center py-3 border-b" style={{ backgroundColor: product.bgHeader }}>
-          <h2 className="text-xs">{product.name}</h2>
+          <h2 className="text-xs line-clamp-1">{product.name}</h2>
         </div>
         {/* Description */}
         <div className="text-center py-1 border-b rounded-b" style={{ backgroundColor: product.bgDesc }}>
-          <p className="text-xs">{product.description}</p>
+          <p className="text-xs line-clamp-1">{product.description}</p>
         </div>
         {/* Image */}
         <div className="w-full min-h-[160px] flex items-center justify-center p-3 bg-[#FFF9ED] relative">
