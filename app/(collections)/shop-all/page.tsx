@@ -31,24 +31,36 @@ export const generateMetadata = (): Metadata => ({
 
 // Server-side data fetching function
 async function getProducts(): Promise<ProductCardType[]> {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/products?populate=mainImage`, {
-  next: { revalidate: 3600 },
-});
-  const data: ApiResponse = await response.json();
-  
-  return data.data.map((item: ApiProduct): ProductCardType => ({
-    name: item.name,
-    slug: item.slug,
-    documentId: item.documentId,
-    price: item.price,
-    description: item.shortDescription,
-    img: `${process.env.NEXT_PUBLIC_STRAPI_URL}${item.mainImage.url}`,
-    bgHeader: item.headerBgColor,
-    bgDesc: item.titleBgColor,
-    bgFooter: item.subtitleBgColor,
-    detailPageBgColor: item.detailPageBgColor
-  }));
+  try {
+    const url = `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/products?populate[mainImage][fields][0]=url`;
+    const response = await fetch(url, { next: { revalidate: 3600 } });
+
+    if (!response.ok) {
+      console.error('Fetch products failed:', response.status, await response.text());
+      return [];
+    }
+
+    const { data } = await response.json();
+    return Array.isArray(data)
+      ? data.map(item => ({
+          name: item.name,
+          slug: item.slug,
+          documentId: item.documentId,
+          price: item.price.toString(),
+          description: item.shortDescription,
+          img: `${process.env.NEXT_PUBLIC_STRAPI_URL}${item.mainImage?.url || ''}`,
+          bgHeader: item.headerBgColor,
+          bgDesc: item.titleBgColor,
+          bgFooter: item.subtitleBgColor,
+          detailPageBgColor: item.detailPageBgColor,
+        }))
+      : [];
+  } catch (err) {
+    console.error('Error fetching products:', err);
+    return [];
+  }
 }
+
 
 export default async function ShopAllPage() {
   const products = await getProducts();
