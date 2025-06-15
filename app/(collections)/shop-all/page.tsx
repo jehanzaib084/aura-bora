@@ -2,19 +2,21 @@ import ProductCard, { Product as ProductCardType } from '@/app/components/Produc
 import { Metadata } from 'next';
 
 interface ApiProduct {
+  id: number;
+  documentId: string;
   name: string;
   slug: string;
-  documentId: string;
-  price: string;
-  mainImage: {
-    url: string;
-  };
-  bgHeaderColor: string;
+  price: number;
   shortDescription: string;
   headerBgColor: string;
   titleBgColor: string;
   subtitleBgColor: string;
   detailPageBgColor: string;
+  mainImage: {
+    id: number;
+    documentId: string;
+    url: string;
+  }
 }
 
 interface ApiResponse {
@@ -33,37 +35,57 @@ export const generateMetadata = (): Metadata => ({
 async function getProducts(): Promise<ProductCardType[]> {
   try {
     const url = `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/products?populate[mainImage][fields][0]=url`;
-    const response = await fetch(url, { next: { revalidate: 3600 } });
+    const response = await fetch(url, { 
+      next: { revalidate: 3600 },
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    });
 
     if (!response.ok) {
       console.error('Fetch products failed:', response.status, await response.text());
       return [];
     }
 
-    const { data } = await response.json();
-    return Array.isArray(data)
-      ? data.map(item => ({
-          name: item.name,
-          slug: item.slug,
-          documentId: item.documentId,
-          price: item.price.toString(),
-          description: item.shortDescription,
-          img: `${process.env.NEXT_PUBLIC_STRAPI_URL}${item.mainImage?.url || ''}`,
-          bgHeader: item.headerBgColor,
-          bgDesc: item.titleBgColor,
-          bgFooter: item.subtitleBgColor,
-          detailPageBgColor: item.detailPageBgColor,
-        }))
-      : [];
+    const { data } = (await response.json()) as ApiResponse;
+    
+    if (!Array.isArray(data)) {
+      console.error('API response data is not an array:', data);
+      return [];
+    }
+
+    return data.map(item => ({
+      name: item.name,
+      slug: item.slug,
+      documentId: item.documentId,
+      price: item.price.toString(),
+      description: item.shortDescription,
+      img: `${process.env.NEXT_PUBLIC_STRAPI_URL}${item.mainImage.url}`,
+      bgHeader: item.headerBgColor,
+      bgDesc: item.titleBgColor,
+      bgFooter: item.subtitleBgColor,
+      detailPageBgColor: item.detailPageBgColor,
+    }));
   } catch (err) {
     console.error('Error fetching products:', err);
     return [];
   }
 }
 
-
 export default async function ShopAllPage() {
   const products = await getProducts();
+
+  // If no products, show a message instead of empty page
+  if (!products || products.length === 0) {
+    return (
+      <div className="min-h-screen w-full flex items-center justify-center font-mono bg-[#FFFEF6]">
+        <div className="text-center">
+          <h1 className="text-2xl mb-4">No products available</h1>
+          <p>Please check back later.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen w-full flex items-center justify-center font-mono bg-[#FFFEF6]">
@@ -87,4 +109,4 @@ export default async function ShopAllPage() {
       </div>
     </div>
   );
-} 
+}
