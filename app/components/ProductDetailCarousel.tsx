@@ -4,9 +4,11 @@ import Image from 'next/image';
 import useEmblaCarousel from 'embla-carousel-react';
 import { useState, useCallback, useEffect } from 'react';
 
-const images = ['/can.png', '/pumpkin_nt.webp', '/pumpkin_show.webp'];
+interface ProductDetailCarouselProps {
+  mainImageUrl: string;
+}
 
-export default function ProductDetailCarousel() {
+export default function ProductDetailCarousel({ mainImageUrl }: ProductDetailCarouselProps) {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false, dragFree: false });
   const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -28,6 +30,8 @@ export default function ProductDetailCarousel() {
     (index: number) => emblaApi && emblaApi.scrollTo(index),
     [emblaApi]
   );
+
+  const images = [mainImageUrl, '/pumpkin_nt.webp', '/pumpkin_show.webp'];
 
   return (
     <div className="relative w-full h-full min-h-[400px]">

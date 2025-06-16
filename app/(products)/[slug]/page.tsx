@@ -17,15 +17,18 @@ interface ApiProduct {
   titleBgColor: string;
   subtitleBgColor: string;
   detailPageBgColor: string;
+  ingredients: string;
+  tastingNotes: string;
+  haiku: string;
   mainImage: {
     url: string;
   };
   illustrationImage: {
     url: string;
   };
-  additionalImages: {
+  additionalImages: Array<{
     url: string;
-  }
+  }>;
 }
 
 interface ApiResponse {
@@ -140,6 +143,18 @@ export default async function ProductPage({
     const slug = resolvedParams.slug;
     const product = await getProduct(slug);
 
+    // Fetch all products for the grid
+    const allProducts = await getAllProducts();
+
+    // Transform API products to match ProductsGrid interface
+    const transformedProducts = allProducts.map(product => ({
+        name: product.name,
+        slug: product.slug,
+        detailPageBgColor: product.detailPageBgColor,
+        subtitleBgColor: product.subtitleBgColor,
+        imageUrl: `${process.env.NEXT_PUBLIC_STRAPI_URL}${product.mainImage.url}`
+    }));
+
     if (!product) {
         return (
             <div className="min-h-screen w-full flex flex-col items-center justify-center bg-[#FFF9ED] text-center p-8">
@@ -188,7 +203,8 @@ export default async function ProductPage({
 
                         {/* Illustration (fixed height, content-based) */}
                         <div className="flex-none border-t-2 lg:border-t-0 lg:border-b-2 border-black relative">
-                            <Image                                src={`${process.env.NEXT_PUBLIC_STRAPI_URL}${product.illustrationImage.url}`}
+                            <Image
+                                src={`${process.env.NEXT_PUBLIC_STRAPI_URL}${product.illustrationImage.url}`}
                                 alt={`${product.name} Illustration`}
                                 width={1000}
                                 height={560}
@@ -202,12 +218,22 @@ export default async function ProductPage({
                         <div className="flex-none flex flex-row border-t-2 lg:border-t-0">
                             <div className="flex-[0_0_70%] flex items-center justify-center gap-8 border-r-2 border-black py-2">
                                 <div className="flex flex-col items-center">
-                                    <Image src="/pumpkin.avif" alt="Pumpkin" width={50} height={50}/>
-                                    <span className="text-xs uppercase tracking-wider">PUMPKIN</span>
+                                    <Image 
+                                        src={`${process.env.NEXT_PUBLIC_STRAPI_URL}${product.additionalImages[0].url}`} 
+                                        alt="Ingredient 1" 
+                                        width={50} 
+                                        height={50}
+                                    />
+                                    <span className="text-xs uppercase tracking-wider">INGREDIENT 1</span>
                                 </div>
                                 <div className="flex flex-col items-center">
-                                    <Image src="/spice.avif" alt="Spice" width={50} height={50}/>
-                                    <span className="text-xs uppercase tracking-wider">SPICE</span>
+                                    <Image 
+                                        src={`${process.env.NEXT_PUBLIC_STRAPI_URL}${product.additionalImages[1].url}`} 
+                                        alt="Ingredient 2" 
+                                        width={50} 
+                                        height={50}
+                                    />
+                                    <span className="text-xs uppercase tracking-wider">INGREDIENT 2</span>
                                 </div>
                             </div>
                             <div className="flex-[0_0_30%] flex flex-col justify-center pl-3 py-2 lg:py-0 text-[0.5rem]">
@@ -220,14 +246,14 @@ export default async function ProductPage({
 
                     {/* CENTER COLUMN */}
                     <div className="order-1 lg:order-2 flex-1 flex w-full py-4 lg:min-h-0 border-b-2 lg:border-b-0 lg:border-r-2 border-black min-w-0 min-h-0">
-                        <ProductDetailCarousel />
+                        <ProductDetailCarousel mainImageUrl={`${process.env.NEXT_PUBLIC_STRAPI_URL}${product.mainImage.url}`} />
                     </div>
 
                     {/* RIGHT COLUMN */}
                     <div className="order-2 lg:order-3 flex flex-col min-w-0 lg:min-w-[32%] min-h-0">
                         {/* Products grid with scroll */}
                         <div className="flex-[1_1_0%] flex-col overflow-y-auto min-w-0 min-h-0">
-                            <ProductsGrid />
+                            <ProductsGrid products={transformedProducts} />
                         </div>
 
                         {/* Quantity selector */}
@@ -306,7 +332,11 @@ export default async function ProductPage({
 
             {/* Know Your Can Section */}
             <div className="border-t-2">
-                <KnowYourCans />
+                <KnowYourCans 
+                    ingredients={product.ingredients}
+                    tastingNotes={product.tastingNotes}
+                    haiku={product.haiku}
+                />
             </div>
         </>
     );

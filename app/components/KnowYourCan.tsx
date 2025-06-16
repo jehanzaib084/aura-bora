@@ -1,6 +1,12 @@
 import React from "react";
 import Image from "next/image";
 
+interface KnowYourCanProps {
+    ingredients: string;
+    tastingNotes: string;
+    haiku: string;
+}
+
 const nutrition = [
     { label: "Calories", value: "0" },
     { label: "Sugars", value: "0g" },
@@ -21,7 +27,7 @@ const icons = [
     { label: "FOR THE PLANET", image: "/png-one-percent-for-the-planet_150x.avif" },
 ];
 
-export default function KnowYourCans() {
+export default function KnowYourCans({ ingredients, tastingNotes, haiku }: KnowYourCanProps) {
     return (
         <section className="w-full bg-[#d47eb4] py-8 px-2 flex flex-col items-center">
             <h2 className="text-white text-5xl md:text-7xl font-bold mb-8 tracking-wide text-center font-gliker w-full max-w-5xl px-4 text-stroke drop-shadow-stroke">
@@ -50,8 +56,12 @@ export default function KnowYourCans() {
                             Ingredients:
                         </span>
                         <span className="w-[50%] lg:w-[70%]">
-                            Carbonated Water, Natural Pumpkin Flavor,<br />
-                            Cinnamon Bark Extract, Clove Extract
+                            {ingredients.split(',').map((ingredient, index) => (
+                                <React.Fragment key={index}>
+                                    {ingredient.trim()}
+                                    {index < ingredients.split(',').length - 1 && <br />}
+                                </React.Fragment>
+                            ))}
                         </span>
                     </div>
                     <div className="flex w-full">
@@ -59,7 +69,7 @@ export default function KnowYourCans() {
                             Tasting notes:
                         </span>
                         <span className="w-[50%] lg:w-[70%]">
-                            nutty, sweet, creamy
+                            {tastingNotes}
                         </span>
                     </div>
                     <div className="flex w-full">
@@ -67,9 +77,12 @@ export default function KnowYourCans() {
                             Haiku:
                         </span>
                         <span className="w-[50%] lg:w-[70%]">
-                            Upside down I hang<br />
-                            Pumpkin rivers, harvest moons<br />
-                            I wish I could see
+                            {haiku.split('\n').map((line, index) => (
+                                <React.Fragment key={index}>
+                                    {line}
+                                    {index < haiku.split('\n').length - 1 && <br />}
+                                </React.Fragment>
+                            ))}
                         </span>
                     </div>
                 </div>
