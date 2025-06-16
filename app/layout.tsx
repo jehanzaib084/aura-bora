@@ -4,8 +4,6 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { CartProvider } from './context/CartContext';
 import CartDrawerTrigger from './components/CartDrawerTrigger';
-import Header from './components/Header';
-import Footer from './components/Footer';
 
 const spaceMono = Space_Mono({
   variable: "--font-mono",
@@ -96,9 +94,7 @@ export default function RootLayout({
       >
         <CartProvider>
           <CartDrawerTrigger />
-          <Header />
           {children}
-          <Footer />
         </CartProvider>
       </body>
     </html>
