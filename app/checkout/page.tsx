@@ -1,8 +1,8 @@
 'use client';
 
 import { useCart } from '@/app/context/CartContext';
-import Image from 'next/image';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ShoppingBag } from 'lucide-react';
 import { useState } from 'react';
 import CheckoutForm, { UserDetails } from './components/CheckoutForm';

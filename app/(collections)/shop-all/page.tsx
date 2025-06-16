@@ -24,11 +24,55 @@ interface ApiResponse {
 }
 
 export const generateMetadata = (): Metadata => ({
-  title: 'Shop All | Aura Bora',
-  description: 'Browse all Aura Bora products.',
-  alternates: {
-    canonical: 'https://aura084.com/collections/shop-all',
+  title: "Shop All | Aura Bora | Sparkling Water with Real Fruit & Herbs",
+  description: "Browse all Aura Bora's delicious sparkling water made with real fruit and herbs. Zero sugar, zero sweeteners, and zero artificial ingredients. Find your favorite unique flavors today!",
+  keywords: "sparkling water, fruit water, herbal water, zero sugar, healthy drinks, natural beverages, Aura Bora, shop all",
+  authors: [{ name: "Aura Bora" }],
+  creator: "Aura Bora",
+  publisher: "Aura Bora",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
   },
+  metadataBase: new URL('https://aura084.vercel.app'),
+  alternates: {
+    canonical: 'https://aura084.vercel.app/collections/shop-all',
+  },
+  openGraph: {
+    title: "Shop All | Aura Bora | Sparkling Water with Real Fruit & Herbs",
+    description: "Browse all Aura Bora's delicious sparkling water made with real fruit and herbs. Zero sugar, zero sweeteners, and zero artificial ingredients. Find your favorite unique flavors today!",
+    url: 'https://aura084.vercel.app/collections/shop-all',
+    siteName: 'Aura Bora',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Aura Bora Sparkling Water Products',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: "Shop All | Aura Bora | Sparkling Water with Real Fruit & Herbs",
+    description: "Browse all Aura Bora's delicious sparkling water made with real fruit and herbs. Zero sugar, zero sweeteners, and zero artificial ingredients. Find your favorite unique flavors today!",
+    images: ['/og-image.png'],
+    creator: '@aurabora',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    }
+  }
 });
 
 // Server-side data fetching function
