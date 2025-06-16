@@ -82,7 +82,7 @@ export default async function Home() {
       </div>
       {/* HomePage Story Card END*/}
 
-      Marquee Carousel Animation
+      {/* Marquee Carousel Animation */}
       <div className="relative w-full overflow-hidden whitespace-nowrap bg-rainbow py-2 border-t-1 border-b-[1.5]">
         <div className="flex animate-marquee">
           <div className="flex shrink-0 items-center space-x-6 px-4">
@@ -115,7 +115,6 @@ export default async function Home() {
 
       <SocialLinks />
   
-      <br />
     </div>
   );
 } 

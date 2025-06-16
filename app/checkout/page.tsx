@@ -2,7 +2,6 @@
 
 import { useCart } from '@/app/context/CartContext';
 import Link from 'next/link';
-import Image from 'next/image';
 import { ShoppingBag } from 'lucide-react';
 import { useState } from 'react';
 import CheckoutForm, { UserDetails } from './components/CheckoutForm';
@@ -39,26 +38,9 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#FFFDF6]">
-      {/* Header */}
-      <header className="bg-white shadow-sm py-4 top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex justify-center">
-            <Link href="/">
-              <Image
-                src="/logo.svg"
-                alt="Aura Bora"
-                width={150}
-                height={50}
-                className="h-12 w-auto"
-              />
-            </Link>
-          </div>
-        </div>
-      </header>
-
+    <div className="min-h-screen bg-[#FFFDF6]">      
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 py-8">
+      <main className="max-w-7xl mx-auto px-4 py-8 mt-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Left Column - Checkout Form */}
           <div className="bg-white rounded-lg shadow p-6">

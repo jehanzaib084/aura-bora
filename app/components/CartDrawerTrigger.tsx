@@ -19,7 +19,7 @@ export default function CartDrawerTrigger() {
     <>
       {/* Cart Button (fixed top right) */}
       <button
-        className="fixed top-4 right-4 z-50 bg-[#F5B54A] text-black rounded-full p-3 shadow-lg hover:bg-[#e5a53a] transition-colors flex items-center gap-2"
+        className="fixed top-2 right-4 z-75 bg-[#F5B54A] text-black rounded-full p-3 shadow-lg hover:bg-[#e5a53a] transition-colors flex items-center gap-2"
         onClick={() => setCartOpen(true)}
         aria-label="Open cart"
       >
