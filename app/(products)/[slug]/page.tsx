@@ -56,17 +56,16 @@ const toBase64 = (str: string) =>
     ? Buffer.from(str).toString('base64')
     : window.btoa(str);
 
-// This is a server component that fetches data
-async function getProduct(slug: string): Promise<ApiProduct | null> {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/products?filters[slug][$eq]=${slug}&populate[mainImage][fields][0]=url&populate[illustrationImage][fields][0]=url&populate[additionalImages][fields][0]=url`, {
-        next: { revalidate: 3600 } // Revalidate every hour
-    });
-    const data: ApiResponse = await response.json();
-    return data.data?.[0] || null;
-}
+// Cache for products data during build
+let productsCache: ApiProduct[] | null = null;
 
 // Get all products for static generation
 async function getAllProducts(): Promise<ApiProduct[]> {
+  // Return cached data if available
+  if (productsCache) {
+    return productsCache;
+  }
+
   console.log('Environment check - NEXT_PUBLIC_STRAPI_URL:', process.env.NEXT_PUBLIC_STRAPI_URL ? 'defined' : 'undefined');
   
   try {
@@ -84,11 +83,34 @@ async function getAllProducts(): Promise<ApiProduct[]> {
 
     const { data } = await response.json() as ApiResponse;
     console.log(`API response received with ${Array.isArray(data) ? data.length : 0} products`);
-    return Array.isArray(data) ? data : [];
+    
+    // Cache the results
+    productsCache = Array.isArray(data) ? data : [];
+    return productsCache;
   } catch (error) {
     console.error('Error fetching products for static paths:', error);
     return [];
   }
+}
+
+// This is a server component that fetches data
+async function getProduct(slug: string, allProducts?: ApiProduct[]): Promise<ApiProduct | null> {
+    // If allProducts is provided, use it
+    if (allProducts) {
+        return allProducts.find(p => p.slug === slug) || null;
+    }
+    
+    // If we have cached products, use them
+    if (productsCache) {
+        return productsCache.find(p => p.slug === slug) || null;
+    }
+    
+    // Fallback to individual fetch if no cache is available
+    const response = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/products?filters[slug][$eq]=${slug}&populate[mainImage][fields][0]=url&populate[illustrationImage][fields][0]=url&populate[additionalImages][fields][0]=url`, {
+        next: { revalidate: 3600 }
+    });
+    const data: ApiResponse = await response.json();
+    return data.data?.[0] || null;
 }
 
 export async function generateStaticParams() {
@@ -107,7 +129,8 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
     const resolvedParams = await params;
     const slug = resolvedParams.slug;
-    const product = await getProduct(slug);
+    const allProducts = await getAllProducts();
+    const product = await getProduct(slug, allProducts);
 
     if (!product) {
         return {
@@ -141,10 +164,12 @@ export default async function ProductPage({
 }) {
     const resolvedParams = await params;
     const slug = resolvedParams.slug;
-    const product = await getProduct(slug);
-
-    // Fetch all products for the grid
+    
+    // Fetch all products once
     const allProducts = await getAllProducts();
+    
+    // Get the specific product from the already fetched data
+    const product = await getProduct(slug, allProducts);
 
     // Transform API products to match ProductsGrid interface
     const transformedProducts = allProducts.map(product => ({
